@@ -1,6 +1,7 @@
 (function(){
   const D=window.SHioriData;
   const M=window.SHioriSheetMirror;
+  const S=window.SHioriFullSummary;
   if(!D||!M) return;
 
   const day1=D.days.find(d=>d.day===1);
@@ -28,4 +29,18 @@
     ["6","After N’EX arrival","Shinjuku → Takadanobaba","JR Yamanote Line","Toward Ikebukuro / Ueno • 2 stops","Allow ~10–15 min to navigate from N’EX platform with luggage; take first suitable train."],
     ["7","~21:40–23:50 depending N’EX","Takadanobaba → Hananosato","Walk","Waseda Exit → Hananosato • ~5–8 min","Self check-in. Keep hotel address + entry instructions offline on both phones."]
   ];
+
+  if(S){
+    const departure=S.meta.find(r=>r[0]==="Departure");
+    if(departure) departure[1]="Oct 25 • NRT T2 12:50 → MNL T3 17:30 → MNL T3 21:50 → ILO 23:15";
+
+    const reserve=S.meta.find(r=>r[0]==="Separate reserves"||r[0]==="Separate reserve");
+    if(reserve){reserve[0]="Separate reserve";reserve[1]="Baggage ¥7,500";}
+
+    S.budget=[
+      ["Daily itinerary caps","¥685,000","≈ ₱274,000","Days 1–8 combined • includes Martin’s shoe budget on Day 3 and 2 primaniacs perfumes on Day 8"],
+      ["Cebu Pacific baggage reserve","¥7,500","≈ ₱3,000",""],
+      ["TOTAL CONSERVATIVE TRIP CAP","¥692,500","≈ ₱277,000","Suica preload is cash-flow, not double-counted"]
+    ];
+  }
 })();
