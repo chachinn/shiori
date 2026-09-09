@@ -1,4 +1,4 @@
-const CACHE='shiori-v7';
+const CACHE='shiori-v8';
 const CORE=['./','index.html','manifest.webmanifest','icons/app-icon-128.png'];
 self.addEventListener('install',event=>{self.skipWaiting();event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)))});
 self.addEventListener('activate',event=>{event.waitUntil((async()=>{const keys=await caches.keys();await Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)));await self.clients.claim()})())});
