@@ -1,5 +1,50 @@
-const CACHE='shiori-v4';
-const ASSETS=['./','index.html','styles.css','data.js','app.js','manifest.webmanifest','icons/app-icon-128.png'];
-self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS))));
-self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));
-self.addEventListener('fetch',event=>event.respondWith(caches.match(event.request).then(hit=>hit||fetch(event.request))));
+const CACHE='shiori-v6';
+const CORE=['./','index.html','manifest.webmanifest','icons/app-icon-128.png'];
+
+self.addEventListener('install',event=>{
+  self.skipWaiting();
+  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(CORE)));
+});
+
+self.addEventListener('activate',event=>{
+  event.waitUntil((async()=>{
+    const keys=await caches.keys();
+    await Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)));
+    await self.clients.claim();
+    const clientsList=await self.clients.matchAll({type:'window',includeUncontrolled:true});
+    for(const client of clientsList){
+      try{ await client.navigate(client.url); }catch(e){}
+    }
+  })());
+});
+
+self.addEventListener('fetch',event=>{
+  if(event.request.method!=='GET') return;
+  const url=new URL(event.request.url);
+  if(url.origin!==self.location.origin) return;
+
+  const isAppShell=event.request.mode==='navigate' || /\.(?:js|css|webmanifest)$/.test(url.pathname);
+  if(isAppShell){
+    event.respondWith((async()=>{
+      try{
+        const fresh=await fetch(event.request,{cache:'no-store'});
+        const cache=await caches.open(CACHE);
+        cache.put(event.request,fresh.clone());
+        return fresh;
+      }catch(e){
+        const cached=await caches.match(event.request);
+        return cached || caches.match('./');
+      }
+    })());
+    return;
+  }
+
+  event.respondWith((async()=>{
+    const cached=await caches.match(event.request);
+    if(cached) return cached;
+    const fresh=await fetch(event.request);
+    const cache=await caches.open(CACHE);
+    cache.put(event.request,fresh.clone());
+    return fresh;
+  })());
+});
