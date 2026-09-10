@@ -28,7 +28,7 @@ test('15-Min schedule has 96 rows and switches all days', async ({page})=>{
   const pageErrors=[];
   page.on('pageerror',e=>pageErrors.push(e.message));
   await openClean(page);
-  await page.locator('button[data-view="schedule"]').click();
+  await page.locator('.nav button[data-view="schedule"]').click();
 
   await expect(page.locator('.sched-time')).toHaveCount(96);
   await expect(page.locator('.sched-plan.occupied.merged').first()).toBeVisible();
@@ -47,7 +47,7 @@ test('Transport switches all days and keeps card layout', async ({page})=>{
   const pageErrors=[];
   page.on('pageerror',e=>pageErrors.push(e.message));
   await openClean(page);
-  await page.locator('button[data-view="transport"]').click();
+  await page.locator('.nav button[data-view="transport"]').click();
   await expect(page.locator('button[data-transit-day]')).toHaveCount(8);
 
   for(let day=1;day<=8;day++){
@@ -61,7 +61,7 @@ test('Transport switches all days and keeps card layout', async ({page})=>{
 
 test('Packing group switching remains functional', async ({page})=>{
   await openClean(page);
-  await page.locator('button[data-view="packing"]').click();
+  await page.locator('.nav button[data-view="packing"]').click();
   await expect(page.locator('button[data-pack]')).toHaveCount(4);
   await page.locator('button[data-pack="Martin"]').click();
   await expect(page.locator('button[data-pack="Martin"]')).toHaveClass(/active/);
@@ -70,34 +70,34 @@ test('Packing group switching remains functional', async ({page})=>{
 
 test('IO Docs checklist persists after reload', async ({page})=>{
   await openClean(page);
-  await page.locator('button[data-view="docs"]').click();
+  await page.locator('.nav button[data-view="docs"]').click();
   const first=page.locator('button[data-doc-tick]').first();
   await expect(first).toBeVisible();
   await first.click();
   await expect(first).toHaveClass(/on/);
 
   await page.reload();
-  await page.locator('button[data-view="docs"]').click();
+  await page.locator('.nav button[data-view="docs"]').click();
   await expect(page.locator('button[data-doc-tick]').first()).toHaveClass(/on/);
 });
 
 test('Pasalubong checklist persists after reload', async ({page})=>{
   await openClean(page);
-  await page.locator('button[data-view="pasalubong"]').click();
+  await page.locator('.nav button[data-view="pasalubong"]').click();
   const first=page.locator('button[data-gift-tick]').first();
   await expect(first).toBeVisible();
   await first.click();
   await expect(first).toHaveClass(/on/);
 
   await page.reload();
-  await page.locator('button[data-view="pasalubong"]').click();
+  await page.locator('.nav button[data-view="pasalubong"]').click();
   await expect(page.locator('button[data-gift-tick]').first()).toHaveClass(/on/);
 });
 
 test('Summary, Bookings and Budget render on mobile', async ({page})=>{
   await openClean(page);
   for(const [view,heading] of [['summary','Trip Summary'],['reservations','Bookings & Tickets'],['budget','Trip Budget']]){
-    await page.locator(`button[data-view="${view}"]`).first().click();
+    await page.locator(`.nav button[data-view="${view}"]`).click();
     await expect(page.locator('main')).toContainText(heading);
   }
 });
