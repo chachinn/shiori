@@ -64,9 +64,13 @@ const app=read('app.js');
 assert(app.includes('["days","🗓️","Days"]')&&app.includes('["summary","♡","Summary"]')&&app.includes('["transport","🚆","Transit"]')&&app.includes('["reservations","🎟️","Book"]')&&app.includes('["budget","¥","Budget"]'),'Bottom-nav contract changed unexpectedly');
 const cleanup=read('ui-cleanup-v13.js');assert(cleanup.includes('delete labels.planning'),'Planning removal guard is missing');
 const fix=read('ui-fix-v14.js');assert(fix.includes("scheduleDay:'schedule-day'")&&fix.includes("transitDay:'transit-day'"),'Day-switch attribute regression guard is missing');
-const stable=read('state-stable-v15.js');
-assert(index.includes('state-stable-v15.js'),'Stable state patch is not loaded');
-assert(stable.includes('delete done[old]')&&stable.includes('delete packDone[old]'),'Legacy positional-key cleanup is missing');
+const stateRuntime=read('state-runtime-v21.js');
+assert(index.includes('state-runtime-v21.js')&&sw.includes("'state-runtime-v21.js'"),'Consolidated state runtime is not loaded and cached');
+assert(stateRuntime.includes('delete done[old]')&&stateRuntime.includes('delete packDone[old]'),'Legacy positional-key cleanup is missing');
+assert(index.includes('interaction-tools-v21.js')&&index.includes('interaction-tools-v21.css'),'Consolidated interaction assets are not loaded');
+assert(sw.includes("'interaction-tools-v21.js'")&&sw.includes("'interaction-tools-v21.css'"),'Consolidated interaction assets are not cached');
+for(const old of ['state-stable-v15.js','state-persist-v16.js','schedule-tools-v17.js','schedule-tools-v17.css','summary-actions-v18.js','summary-actions-v18.css','travel-actions-v19.js','travel-actions-v19.css','pwa-status-v20.js','pwa-status-v20.css','ui-v2.js','visual-v2.css'])assert(!fs.existsSync(path.join(root,old)),`Superseded/orphaned file still present: ${old}`);
 
 console.log(`✓ Shiori static QA passed for v${release}`);
 console.log(`✓ ${itineraryKeys.size} itinerary keys and ${packingKeys.size} packing keys are stable and collision-free`);
+console.log('✓ Runtime consolidation and legacy-file cleanup validated');
