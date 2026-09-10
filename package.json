@@ -1,0 +1,14 @@
+{
+  "name": "shiori-trip-companion",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "qa:syntax": "find . -maxdepth 2 \\( -name '*.js' -o -name '*.mjs' \\) -not -path './node_modules/*' -print0 | xargs -0 -n1 node --check",
+    "qa:static": "node tests/qa-static.mjs",
+    "qa:browser": "playwright test",
+    "qa": "npm run qa:syntax && npm run qa:static && npm run qa:browser"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.55.0"
+  }
+}
