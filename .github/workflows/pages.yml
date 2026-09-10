@@ -3,6 +3,8 @@ name: Deploy Shiori to GitHub Pages
 on:
   push:
     branches: ["main"]
+  pull_request:
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
@@ -11,11 +13,34 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  qa:
+    name: QA gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install QA dependencies
+        run: npm install --ignore-scripts --no-audit --no-fund
+      - name: JavaScript syntax checks
+        run: npm run qa:syntax
+      - name: Static and data integrity checks
+        run: npm run qa:static
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Mobile browser smoke tests
+        run: npm run qa:browser
+
   deploy:
+    if: github.event_name != 'pull_request'
+    needs: qa
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
