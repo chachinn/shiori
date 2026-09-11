@@ -27,23 +27,27 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('Nakano is removed from the fixed itinerary',{exact:false})).toBeVisible();
 });
 
-test('If We Have Time mirrors the new Sheet and persists cross-offs',async({page})=>{
+test('If We Have Time mirrors current grouped Sheet and persists cross-offs',async({page})=>{
   await page.goto('/');
   await page.getByRole('button',{name:'If We Have Time'}).click();
-  await expect(page.getByRole('heading',{name:'If We Have Time'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'✨ IF WE HAVE TIME — NEARBY OPTIONS'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'🌸 NEAR HOTEL / EASY ANY-DAY BONUSES'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'🍜 RESTAURANTS / FOOD BACKUPS'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'🛍️ SHOPPING / ANIME / FRAGRANCE'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'🌿 QUIET / SCENIC / ARCHITECTURE'})).toBeVisible();
   await expect(page.getByText('Bic Camera Yurakucho',{exact:true})).toBeVisible();
   await expect(page.getByText('Inokashira Park',{exact:true})).toBeVisible();
   await expect(page.getByText('Mejiro Garden (目白庭園)',{exact:true})).toBeVisible();
   await expect(page.getByText('SOOTANG HOBBY OMOTESANDO',{exact:true})).toBeVisible();
   await expect(page.getByText('Zoshigaya Kishimojindo (鬼子母神堂)',{exact:true})).toBeVisible();
   await expect(page.getByText('Jiyugakuen Myonichikan (自由学園明日館)',{exact:true})).toBeVisible();
-  await expect(page.locator('.iftime-row')).toHaveCount(44);
+  await expect(page.locator('.iftime-row')).toHaveCount(26);
 
   const row=page.locator('.iftime-row').filter({hasText:'Bic Camera Yurakucho'});
-  const check=row.locator('[data-iftime-tick]');
+  const check=row.locator('[data-iftime-v23-tick]');
   await check.click();
   await expect(row).toHaveClass(/done/);
   await page.reload();
-  await expect(page.getByRole('heading',{name:'If We Have Time'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'✨ IF WE HAVE TIME — NEARBY OPTIONS'})).toBeVisible();
   await expect(page.locator('.iftime-row').filter({hasText:'Bic Camera Yurakucho'})).toHaveClass(/done/);
 });
