@@ -24,8 +24,10 @@ const coreMatch=sw.match(/const CORE=\[(.*?)\];/s);assert(coreMatch,'Could not r
 const core=[...coreMatch[1].matchAll(/'([^']+)'/g)].map(m=>m[1]);
 for(const ref of core){if(ref!=='./')assert(fs.existsSync(path.join(root,ref)),`Missing service-worker CORE asset: ${ref}`)}
 
+// Keep static integrity checks limited to data-only layers. Browser-coupled sync/UI
+// layers are covered by Playwright below in the QA workflow.
 const context=vm.createContext({window:{},console});
-for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v22.js','sheet-live-v22.js','sheet-sync-v24.js'])vm.runInContext(read(file),context,{filename:file});
+for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js'])vm.runInContext(read(file),context,{filename:file});
 const D=context.window.SHioriData,M=context.window.SHioriSheetMirror,X=context.window.SHioriSheetExtra,S=context.window.SHioriFullSummary;
 assert(D&&M&&X&&S,'One or more runtime data mirrors failed to initialize');
 assert(context.window.SHioriSheetSyncVersion==='2026-09-11-v24','Latest Sheet sync patch did not execute');
