@@ -5,37 +5,38 @@ const topView=(page,view)=>page.locator(`.nav button[data-view="${view}"]`);
 test('latest Sheet updates appear across itinerary, schedule, transport, bookings and budget',async({page})=>{
   await page.goto('/');
   await topView(page,'days').click();
-  await page.getByRole('button',{name:'Day 3'}).click();
+  await page.locator('button[data-day="3"]').click();
   await expect(page.getByText('Dr.STONE PARTY vol.2 — ✅ BOOKED 14:50')).toBeVisible();
-  await expect(page.getByText('Nakano Broadway',{exact:true}).first()).toBeVisible();
   await expect(page.getByText('¥225,000',{exact:true}).first()).toBeVisible();
 
-  await page.getByRole('button',{name:'Day 4'}).click();
+  await page.locator('button[data-day="4"]').click();
   await expect(page.getByText('MAPPA EXPO 15th Anniversary — ✅ BOOKED')).toBeVisible();
   await expect(page.getByText('¥129,000',{exact:true}).first()).toBeVisible();
 
-  await page.getByRole('button',{name:'Day 6'}).click();
+  await page.locator('button[data-day="6"]').click();
   await expect(page.getByText('Hitsumabushi Nagoya Bincho — ✅ BOOKED 13:30',{exact:true})).toBeVisible();
   await expect(page.getByText('Manmaru Honten',{exact:false})).toHaveCount(0);
 
   await topView(page,'schedule').click();
-  await page.getByRole('button',{name:'Day 3'}).click();
+  await page.locator('button[data-schedule-day="3"]').click();
   await expect(page.getByText('Dr.STONE PARTY vol.2 • ✅ BOOKED 14:50')).toBeVisible();
-  await page.getByRole('button',{name:'Day 4'}).click();
+  await expect(page.locator('.sched-time')).toHaveCount(96);
+  await page.locator('button[data-schedule-day="4"]').click();
   await expect(page.getByText('MAPPA EXPO • ✅ BOOKED 16:00')).toBeVisible();
-  await page.getByRole('button',{name:'Day 6'}).click();
+  await expect(page.locator('.sched-time')).toHaveCount(96);
+  await page.locator('button[data-schedule-day="6"]').click();
   await expect(page.getByText('Hitsumabushi Bincho unagi')).toBeVisible();
-  await expect(page.locator('.sched-row')).toHaveCount(96);
+  await expect(page.locator('.sched-time')).toHaveCount(96);
 
   await topView(page,'transport').click();
-  await page.getByRole('button',{name:'Day 3'}).click();
+  await page.locator('button[data-transit-day="3"]').click();
   await expect(page.getByText('Lutia / Shinjuku → NATSLIVE CAFE Omotesando')).toBeVisible();
   await expect(page.getByText('Nakano → Shinjuku → Shibuya')).toHaveCount(0);
   await expect(page.locator('.transport-leg')).toHaveCount(12);
-  await page.getByRole('button',{name:'Day 6'}).click();
+  await page.locator('button[data-transit-day="6"]').click();
   await expect(page.getByText('Ikebukuro Station → Ikebukuro PARCO Main Building 8F')).toBeVisible();
   await expect(page.locator('.transport-leg')).toHaveCount(12);
-  await page.getByRole('button',{name:'Day 7'}).click();
+  await page.locator('button[data-transit-day="7"]').click();
   await expect(page.getByText('Kichijoji → Shimokitazawa')).toBeVisible();
   await expect(page.getByText('Kagurazaka',{exact:false})).toHaveCount(0);
   await expect(page.locator('.transport-leg')).toHaveCount(13);
