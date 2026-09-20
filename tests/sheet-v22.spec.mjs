@@ -15,7 +15,7 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('¥129,000',{exact:true}).first()).toBeVisible();
 
   await page.getByRole('button',{name:'Day 6'}).click();
-  await expect(page.getByText('Hitsumabushi Nagoya Bincho',{exact:true})).toBeVisible();
+  await expect(page.getByText('Hitsumabushi Nagoya Bincho — ✅ BOOKED 13:30',{exact:true})).toBeVisible();
   await expect(page.getByText('Manmaru Honten',{exact:false})).toHaveCount(0);
 
   await topView(page,'schedule').click();
