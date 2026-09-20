@@ -24,10 +24,13 @@ const coreMatch=sw.match(/const CORE=\[(.*?)\];/s);assert(coreMatch,'Could not r
 const core=[...coreMatch[1].matchAll(/'([^']+)'/g)].map(m=>m[1]);
 for(const ref of core){if(ref!=='./')assert(fs.existsSync(path.join(root,ref)),`Missing service-worker CORE asset: ${ref}`)}
 
+// Keep static integrity checks limited to data-only layers. Browser-coupled sync/UI
+// layers are covered by Playwright below in the QA workflow.
 const context=vm.createContext({window:{},console});
-for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js'])vm.runInContext(read(file),context,{filename:file});
+for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js'])vm.runInContext(read(file),context,{filename:file});
 const D=context.window.SHioriData,M=context.window.SHioriSheetMirror,X=context.window.SHioriSheetExtra,S=context.window.SHioriFullSummary;
 assert(D&&M&&X&&S,'One or more runtime data mirrors failed to initialize');
+assert(context.window.SHioriSheetSyncVersion==='2026-09-11-v24','Latest Sheet sync patch did not execute');
 assert(Array.isArray(D.days)&&D.days.length===8,`Expected 8 itinerary days, got ${D.days?.length}`);
 assert(new Set(D.days.map(d=>d.day)).size===8,'Itinerary day numbers are duplicated');
 
@@ -60,6 +63,26 @@ assert(M.packing&&Object.keys(M.packing).length>=3,'Packing groups are incomplet
 assert(M.pasalubong&&Object.keys(M.pasalubong).length>=3,'Pasalubong groups are incomplete');
 assert(Array.isArray(S.days)&&S.days.length===8,`Summary expected 8 day rows, got ${S.days?.length}`);
 
+// Latest live-Sheet reconciliation guards.
+assert(M.transport[3].length===12,`Day 3 transport should preserve all 12 live-Sheet rows, got ${M.transport[3].length}`);
+assert(M.transport[6].length===12,`Day 6 transport should preserve all 12 live-Sheet rows, got ${M.transport[6].length}`);
+assert(M.transport[6].some(r=>String(r[2]).includes('Ikebukuro PARCO')),'Day 6 transport is missing Ikebukuro PARCO / Hitsumabushi routing');
+assert(D.days.find(d=>d.day===6).timeline.some(r=>String(r[2]).includes('Hitsumabushi Nagoya Bincho')),'Day 6 itinerary is missing Hitsumabushi Nagoya Bincho');
+assert(X.reservations.some(r=>r[0]==='Hitsumabushi Nagoya Bincho — Ikebukuro PARCO'),'Latest Hitsumabushi reservation row is missing');
+assert(X.reservations.some(r=>String(r[0]).includes('Custom Cake')),'Custom cake reservation row is missing');
+assert(X.budget.some(r=>r[0]==='TOTAL TRIP BUDGET'&&String(r[1]).includes('¥692,500')),'Trip total is not the current ¥692,500');
+assert(X.docs.immigration.includes('Hotel Accommodation — Hananosato Takadanobaba'),'IO Docs hotel wording is stale');
+assert(X.docs.immigration.includes('Travel Insurance'),'IO Docs travel-insurance wording is stale');
+assert(S.days[5][2].includes('Hitsumabushi Nagoya Bincho'),'Trip Summary Day 6 still has the old lunch');
+assert(S.days[7][6]==='¥37,000','Trip Summary Day 8 budget is not current');
+assert(S.budget[0][1]==='¥685,000'&&S.budget.at(-1)[1]==='¥692,500','Trip Summary budget-at-a-glance is stale');
+const latestData=JSON.stringify({days:D.days,transport:M.transport,schedule:M.schedule,planning:M.planning,reservations:X.reservations,budget:X.budget,summary:S});
+assert(!latestData.includes('Manmaru Honten'),'Superseded Manmaru data leaked through the final Sheet sync');
+
+const ifTime=read('if-time-v23.js');
+assert(ifTime.includes("title:'🌸 NEAR HOTEL / EASY ANY-DAY BONUSES'")&&ifTime.includes("title:'🍜 RESTAURANTS / FOOD BACKUPS'")&&ifTime.includes("title:'🛍️ SHOPPING / ANIME / FRAGRANCE'")&&ifTime.includes("title:'🌿 QUIET / SCENIC / ARCHITECTURE'"),'If We Have Time section structure is incomplete');
+for(const place of ['Mejiro Garden (目白庭園)','SOOTANG HOBBY OMOTESANDO','Zoshigaya Kishimojindo (鬼子母神堂)','Jiyugakuen Myonichikan (自由学園明日館)'])assert(ifTime.includes(place),`If We Have Time is missing ${place}`);
+
 const app=read('app.js');
 assert(app.includes('["days","🗓️","Days"]')&&app.includes('["summary","♡","Summary"]')&&app.includes('["transport","🚆","Transit"]')&&app.includes('["reservations","🎟️","Book"]')&&app.includes('["budget","¥","Budget"]'),'Bottom-nav contract changed unexpectedly');
 const cleanup=read('ui-cleanup-v13.js');assert(cleanup.includes('delete labels.planning'),'Planning removal guard is missing');
@@ -73,4 +96,4 @@ for(const old of ['state-stable-v15.js','state-persist-v16.js','schedule-tools-v
 
 console.log(`✓ Shiori static QA passed for v${release}`);
 console.log(`✓ ${itineraryKeys.size} itinerary keys and ${packingKeys.size} packing keys are stable and collision-free`);
-console.log('✓ Runtime consolidation and legacy-file cleanup validated');
+console.log('✓ Latest Sheet reconciliation, runtime consolidation and legacy-file cleanup validated');
