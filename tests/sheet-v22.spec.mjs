@@ -49,8 +49,10 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('R202609111253-S474iC',{exact:false})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Hitsumabushi Nagoya Bincho — Ikebukuro PARCO'})).toBeVisible();
   await expect(page.getByText('BOOKED — Sep 12, 2026',{exact:true})).toBeVisible();
+  await expect(page.getByText("Booked through the restaurant's EBICA reservation site.",{exact:false})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Miyanoen Sayama Tea-Picking'})).toBeVisible();
   await expect(page.getByText('BOOKED — Sep 17, 2026',{exact:true})).toBeVisible();
+  await expect(page.getByText('Do not shorten the experience to force one bus.',{exact:false})).toBeVisible();
   await expect(page.getByRole('heading',{name:'夜のケーキ屋さん®️歌舞伎町 — Custom Cake'})).toBeVisible();
   await expect(page.getByText('Primary pickup Oct 20 if tracking says ready',{exact:false})).toBeVisible();
 
