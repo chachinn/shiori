@@ -27,10 +27,10 @@ for(const ref of core){if(ref!=='./')assert(fs.existsSync(path.join(root,ref)),`
 // Keep static integrity checks limited to data-only layers. Browser-coupled sync/UI
 // layers are covered by Playwright below in the QA workflow.
 const context=vm.createContext({window:{},console});
-for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js'])vm.runInContext(read(file),context,{filename:file});
+for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js'])vm.runInContext(read(file),context,{filename:file});
 const D=context.window.SHioriData,M=context.window.SHioriSheetMirror,X=context.window.SHioriSheetExtra,S=context.window.SHioriFullSummary;
 assert(D&&M&&X&&S,'One or more runtime data mirrors failed to initialize');
-assert(context.window.SHioriSheetSyncVersion==='2026-09-11-v24','Latest Sheet sync patch did not execute');
+assert(context.window.SHioriSheetSyncVersion==='2026-09-23-v26','Latest Sheet sync patch did not execute');
 assert(Array.isArray(D.days)&&D.days.length===8,`Expected 8 itinerary days, got ${D.days?.length}`);
 assert(new Set(D.days.map(d=>d.day)).size===8,'Itinerary day numbers are duplicated');
 
@@ -70,7 +70,8 @@ assert(M.transport[6].some(r=>String(r[2]).includes('Ikebukuro PARCO')),'Day 6 t
 assert(D.days.find(d=>d.day===6).timeline.some(r=>String(r[2]).includes('Hitsumabushi Nagoya Bincho')),'Day 6 itinerary is missing Hitsumabushi Nagoya Bincho');
 assert(X.reservations.some(r=>r[0]==='Hitsumabushi Nagoya Bincho — Ikebukuro PARCO'),'Latest Hitsumabushi reservation row is missing');
 assert(X.reservations.some(r=>String(r[0]).includes('Custom Cake')),'Custom cake reservation row is missing');
-assert(X.budget.some(r=>r[0]==='TOTAL TRIP BUDGET'&&String(r[1]).includes('¥692,500')),'Trip total is not the current ¥692,500');
+assert(M.planning.some(r=>String(r[0]).includes('Hitsumabushi Nagoya Bincho')&&String(r[0]).includes('✅ BOOKED')&&String(r[1]).includes('BOOKED for 2 via EBICA')),'Planning mirror still says Hitsumabushi is unbooked');
+assert(X.budget.some(r=>r[0]==='TOTAL TRIP BUDGET'&&String(r[1]).includes('¥688,500')),'Trip total is not the current ¥688,500');
 assert(X.docs.immigration.includes('Hotel Accommodation — Hananosato Takadanobaba'),'IO Docs hotel wording is stale');
 assert(X.docs.immigration.includes('Travel Insurance'),'IO Docs travel-insurance wording is stale');
 assert(S.days[5][2].includes('Hitsumabushi Nagoya Bincho'),'Trip Summary Day 6 still has the old lunch');
