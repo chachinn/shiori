@@ -46,7 +46,8 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('Oct 21 • 16:00',{exact:true})).toBeVisible();
   await expect(page.getByText('✅ BOOKED',{exact:true}).first()).toBeVisible();
   await expect(page.getByRole('heading',{name:'Dr.STONE PARTY vol.2 — NATSLIVE CAFE Omotesando'})).toBeVisible();
-  await expect(page.getByText('R202609111253-S474iC',{exact:false})).toBeVisible();
+  await expect(page.getByText('R202609111253-S474iC',{exact:false})).toHaveCount(0);
+  await expect(page.getByText('private reservation identifier remains in the Google Sheet / confirmation',{exact:false})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Hitsumabushi Nagoya Bincho — Ikebukuro PARCO'})).toBeVisible();
   await expect(page.getByText('BOOKED — Sep 12, 2026',{exact:true})).toBeVisible();
   await expect(page.getByText("Booked through the restaurant's EBICA reservation site.",{exact:false})).toBeVisible();

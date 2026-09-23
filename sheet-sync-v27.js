@@ -59,7 +59,7 @@
       ['10:15–10:45','🚶','Can★Do → Lutia + salon buffer','Shinjuku','Arrive 10–15 minutes early.'],
       ['11:00–13:30','💇‍♀️','Lutia appointment — ✅ BOOKED','Shinjuku','Cut + straightening + treatment.'],
       ['13:30–14:15','🚆','Lutia / Shinjuku → NATSLIVE CAFE Omotesando','Metro + walk','Allow ~30–40 min door-to-door; target café arrival ~14:30–14:35.'],
-      ['14:50–16:00','🧪','Dr.STONE PARTY vol.2 — ✅ BOOKED','NATSLIVE CAFE Omotesando','Booked for 2. Reserved menu total ¥7,700 is NOT YET PAID; merch additional/TBD. Keep the confirmation accessible.'],
+      ['14:50–16:00','🧪','Dr.STONE PARTY vol.2 — ✅ BOOKED 14:50','NATSLIVE CAFE Omotesando','Booked for 2. Reserved menu total ¥7,700 is NOT YET PAID; merch additional/TBD. Keep the confirmation accessible.'],
       ['16:00–16:25','🚆','Omotesando → Shibuya / MODI','Tokyo Metro Ginza Line + walk','Do not route via Nakano; continue into Shibuya.'],
       ['16:25–17:40','🐯','BSD × h.NAOTO + Onitsuka Tiger SHIBUYA2','Shibuya MODI','Prioritize both before the 20:00 close.'],
       ['17:40–17:55','🚶','MODI → SHIBUYA109','Shibuya','Allow crowd / crossing buffer.'],
