@@ -55,7 +55,7 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('Kagurazaka',{exact:false})).toHaveCount(0);
   await expect(page.locator('.transport-leg')).toHaveCount(15);
   await page.locator('button[data-transit-day="8"]').click();
-  await expect(page.getByText('Narita T2 → Toyoko Inn Narita Airport Honkan')).toBeVisible();
+  await expect(page.getByText('Narita T2 → Toyoko Inn Narita Airport Honkan',{exact:true}).first()).toBeVisible();
   await expect(page.locator('.transport-leg')).toHaveCount(10);
   await page.locator('button[data-transit-day="9"]').click();
   await expect(page.getByText('Cebu Terminal 2 → Terminal 1 connection')).toBeVisible();
