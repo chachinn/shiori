@@ -32,7 +32,7 @@ const D=context.window.SHioriData,M=context.window.SHioriSheetMirror,X=context.w
 assert(D&&M&&X&&S,'One or more runtime data mirrors failed to initialize');
 assert(context.window.SHioriSheetSyncVersion==='2026-10-04-v28','Latest Sheet sync patch did not execute');
 assert(Array.isArray(D.days)&&D.days.length===9,`Expected 9 itinerary days, got ${D.days?.length}`);
-assert(new Set(D.days.map(d=>d.day)).size===8,'Itinerary day numbers are duplicated');
+assert(new Set(D.days.map(d=>d.day)).size===9,'Itinerary day numbers are duplicated');
 
 const itineraryKeys=new Set();
 for(let day=1;day<=9;day++){
