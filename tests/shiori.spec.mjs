@@ -10,8 +10,8 @@ test('mobile navigation and all itinerary days work', async ({page})=>{
   const pageErrors=[];page.on('pageerror',e=>pageErrors.push(e.message));await openClean(page);
   await expect(page.locator('.bottom-nav button')).toHaveCount(5);
   await expect(page.locator('.nav')).not.toContainText('Planning');
-  await expect(page.locator('button[data-day]')).toHaveCount(8);
-  for(let day=1;day<=8;day++){await page.locator(`button[data-day="${day}"]`).click();await expect(page.locator('.banner-day strong')).toHaveText(`Day ${day}`)}
+  await expect(page.locator('button[data-day]')).toHaveCount(9);
+  for(let day=1;day<=9;day++){await page.locator(`button[data-day="${day}"]`).click();await expect(page.locator('.banner-day strong')).toHaveText(`Day ${day}`)}
   await expect(page.locator('.photo-highlights')).toHaveCount(1);expect(pageErrors).toEqual([]);
 });
 
@@ -20,15 +20,15 @@ test('15-Min schedule has 96 rows and switches all days', async ({page})=>{
   await page.locator('.nav button[data-view="schedule"]').click();
   await expect(page.locator('.sched-time')).toHaveCount(96);
   await expect(page.locator('.sched-plan.occupied.merged').first()).toBeVisible();
-  await expect(page.locator('button[data-schedule-day]')).toHaveCount(8);
-  for(let day=1;day<=8;day++){await page.locator(`button[data-schedule-day="${day}"]`).click();await expect(page.locator(`button[data-schedule-day="${day}"]`)).toHaveClass(/active/);await expect(page.locator('.sched-time')).toHaveCount(96)}
+  await expect(page.locator('button[data-schedule-day]')).toHaveCount(9);
+  for(let day=1;day<=9;day++){await page.locator(`button[data-schedule-day="${day}"]`).click();await expect(page.locator(`button[data-schedule-day="${day}"]`)).toHaveClass(/active/);await expect(page.locator('.sched-time')).toHaveCount(96)}
   expect(pageErrors).toEqual([]);
 });
 
 test('Transport switches all days and keeps card layout', async ({page})=>{
   const pageErrors=[];page.on('pageerror',e=>pageErrors.push(e.message));await openClean(page);
-  await page.locator('.nav button[data-view="transport"]').click();await expect(page.locator('button[data-transit-day]')).toHaveCount(8);
-  for(let day=1;day<=8;day++){await page.locator(`button[data-transit-day="${day}"]`).click();await expect(page.locator(`button[data-transit-day="${day}"]`)).toHaveClass(/active/);await expect(page.locator('.transport-leg').first()).toBeVisible()}
+  await page.locator('.nav button[data-view="transport"]').click();await expect(page.locator('button[data-transit-day]')).toHaveCount(9);
+  for(let day=1;day<=9;day++){await page.locator(`button[data-transit-day="${day}"]`).click();await expect(page.locator(`button[data-transit-day="${day}"]`)).toHaveClass(/active/);await expect(page.locator('.transport-leg').first()).toBeVisible()}
   expect(pageErrors).toEqual([]);
 });
 

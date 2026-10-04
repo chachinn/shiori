@@ -27,15 +27,15 @@ for(const ref of core){if(ref!=='./')assert(fs.existsSync(path.join(root,ref)),`
 // Keep static integrity checks limited to data-only layers. Browser-coupled sync/UI
 // layers are covered by Playwright below in the QA workflow.
 const context=vm.createContext({window:{},console});
-for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js'])vm.runInContext(read(file),context,{filename:file});
+for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js','sheet-sync-v27.js','sheet-sync-v28.js'])vm.runInContext(read(file),context,{filename:file});
 const D=context.window.SHioriData,M=context.window.SHioriSheetMirror,X=context.window.SHioriSheetExtra,S=context.window.SHioriFullSummary;
 assert(D&&M&&X&&S,'One or more runtime data mirrors failed to initialize');
-assert(context.window.SHioriSheetSyncVersion==='2026-09-23-v26','Latest Sheet sync patch did not execute');
-assert(Array.isArray(D.days)&&D.days.length===8,`Expected 8 itinerary days, got ${D.days?.length}`);
+assert(context.window.SHioriSheetSyncVersion==='2026-10-04-v28','Latest Sheet sync patch did not execute');
+assert(Array.isArray(D.days)&&D.days.length===9,`Expected 9 itinerary days, got ${D.days?.length}`);
 assert(new Set(D.days.map(d=>d.day)).size===8,'Itinerary day numbers are duplicated');
 
 const itineraryKeys=new Set();
-for(let day=1;day<=8;day++){
+for(let day=1;day<=9;day++){
   const d=D.days.find(x=>x.day===day);assert(d,`Missing itinerary Day ${day}`);
   for(const key of ['date','title','budget','start','end'])assert(String(d[key]??'').trim(),`Day ${day} missing ${key}`);
   assert(Array.isArray(d.timeline)&&d.timeline.length>0,`Day ${day} has no timeline`);
@@ -61,7 +61,7 @@ assert(Array.isArray(X.budget)&&X.budget.length>1,'Budget mirror is empty');
 assert(X.docs?.visa?.length>0&&X.docs?.immigration?.length>0,'IO Docs mirror is incomplete');
 assert(M.packing&&Object.keys(M.packing).length>=3,'Packing groups are incomplete');
 assert(M.pasalubong&&Object.keys(M.pasalubong).length>=3,'Pasalubong groups are incomplete');
-assert(Array.isArray(S.days)&&S.days.length===8,`Summary expected 8 day rows, got ${S.days?.length}`);
+assert(Array.isArray(S.days)&&S.days.length===9,`Summary expected 9 day rows, got ${S.days?.length}`);
 
 // Latest live-Sheet reconciliation guards.
 assert(M.transport[3].length===12,`Day 3 transport should preserve all 12 live-Sheet rows, got ${M.transport[3].length}`);
@@ -71,14 +71,22 @@ assert(D.days.find(d=>d.day===6).timeline.some(r=>String(r[2]).includes('Hitsuma
 assert(X.reservations.some(r=>r[0]==='Hitsumabushi Nagoya Bincho — Ikebukuro PARCO'),'Latest Hitsumabushi reservation row is missing');
 assert(X.reservations.some(r=>String(r[0]).includes('Custom Cake')),'Custom cake reservation row is missing');
 assert(M.planning.some(r=>String(r[0]).includes('Hitsumabushi Nagoya Bincho')&&String(r[0]).includes('✅ BOOKED')&&String(r[1]).includes('BOOKED for 2 via EBICA')),'Planning mirror still says Hitsumabushi is unbooked');
-assert(X.budget.some(r=>r[0]==='TOTAL TRIP BUDGET'&&String(r[1]).includes('¥688,500')),'Trip total is not the current ¥688,500');
+assert(X.budget.some(r=>r[0]==='TOTAL TRIP BUDGET'&&String(r[1]).includes('¥703,500')),'Trip total is not the current ¥688,500');
 assert(X.docs.immigration.includes('Hotel Accommodation — Hananosato Takadanobaba'),'IO Docs hotel wording is stale');
 assert(X.docs.immigration.includes('Travel Insurance'),'IO Docs travel-insurance wording is stale');
 assert(S.days[5][2].includes('Hitsumabushi Nagoya Bincho'),'Trip Summary Day 6 still has the old lunch');
-assert(S.days[7][6]==='¥37,000','Trip Summary Day 8 budget is not current');
-assert(S.budget[0][1]==='¥685,000'&&S.budget.at(-1)[1]==='¥692,500','Trip Summary budget-at-a-glance is stale');
+assert(S.days[7][6].includes('¥40,000'),'Trip Summary Day 8 budget is not current');
+assert(S.budget[0][1]==='¥696,000'&&S.budget.at(-1)[1]==='¥703,500','Trip Summary budget-at-a-glance is stale');
+assert(D.days.some(d=>d.day===9&&d.title==='Departure via Cebu'),'Day 9 departure itinerary is missing');
+assert(M.transport[8].some(r=>String(r[2]).includes('Toyoko Inn Narita Airport Honkan')),'Day 8 Toyoko transport is missing');
+assert(M.transport[9].some(r=>String(r[2]).includes('Cebu Terminal 2 → Terminal 1')),'Day 9 Cebu terminal transfer is missing');
+assert(M.transport[7].length===15,`Day 7 transport should include 13 primary + 2 weather-backup rows, got ${M.transport[7].length}`);
+assert(X.reservations.some(r=>r[0]==='Toyoko Inn Narita Airport Honkan'),'Toyoko hotel booking is missing');
+assert(S.days[8][6]==='¥12,000','Trip Summary Day 9 budget is not current');
 const latestData=JSON.stringify({days:D.days,transport:M.transport,schedule:M.schedule,planning:M.planning,reservations:X.reservations,budget:X.budget,summary:S});
 assert(!latestData.includes('Manmaru Honten'),'Superseded Manmaru data leaked through the final Sheet sync');
+assert(!latestData.includes('1781870115'),'Private Toyoko/Agoda booking ID leaked into public app data');
+assert(!latestData.includes('R202609111253-S474iC'),'Private Dr.STONE reservation ID leaked into public app data');
 
 const ifTime=read('if-time-v23.js');
 assert(ifTime.includes("title:'🌸 NEAR HOTEL / EASY ANY-DAY BONUSES'")&&ifTime.includes("title:'🍜 RESTAURANTS / FOOD BACKUPS'")&&ifTime.includes("title:'🛍️ SHOPPING / ANIME / FRAGRANCE'")&&ifTime.includes("title:'🌿 QUIET / SCENIC / ARCHITECTURE'"),'If We Have Time section structure is incomplete');
