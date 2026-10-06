@@ -46,7 +46,7 @@
   const X=window.SHioriSheetExtra;
   if(!X||!Array.isArray(X.reservations))return;
   const baseSummaryView=summaryView;
-  const actionableStatus=/TO BUY|TO RESERVE|PENDING|TO ORDER|RESERVE SEATS/i;
+  const actionableStatus=/TO BUY|TO RESERVE|PENDING|TO ORDER|RESERVE SEATS|DECIDE NOW/i;
   function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
   function actionRows(){
     const [heads,...rows]=X.reservations;
