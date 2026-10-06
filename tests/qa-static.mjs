@@ -27,10 +27,10 @@ for(const ref of core){if(ref!=='./')assert(fs.existsSync(path.join(root,ref)),`
 // Keep static integrity checks limited to data-only layers. Browser-coupled sync/UI
 // layers are covered by Playwright below in the QA workflow.
 const context=vm.createContext({window:{},console});
-for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js','sheet-sync-v27.js','sheet-sync-v28.js'])vm.runInContext(read(file),context,{filename:file});
+for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js','sheet-sync-v27.js','sheet-sync-v28.js','sheet-sync-v29.js'])vm.runInContext(read(file),context,{filename:file});
 const D=context.window.SHioriData,M=context.window.SHioriSheetMirror,X=context.window.SHioriSheetExtra,S=context.window.SHioriFullSummary;
 assert(D&&M&&X&&S,'One or more runtime data mirrors failed to initialize');
-assert(context.window.SHioriSheetSyncVersion==='2026-10-04-v28','Latest Sheet sync patch did not execute');
+assert(context.window.SHioriSheetSyncVersion==='2026-10-06-v29','Latest Sheet sync patch did not execute');
 assert(Array.isArray(D.days)&&D.days.length===9,`Expected 9 itinerary days, got ${D.days?.length}`);
 assert(new Set(D.days.map(d=>d.day)).size===9,'Itinerary day numbers are duplicated');
 
@@ -83,10 +83,24 @@ assert(M.transport[9].some(r=>String(r[2]).includes('Cebu Terminal 2 → Termina
 assert(M.transport[7].length===15,`Day 7 transport should include 13 primary + 2 weather-backup rows, got ${M.transport[7].length}`);
 assert(X.reservations.some(r=>r[0]==='Toyoko Inn Narita Airport Honkan'),'Toyoko hotel booking is missing');
 assert(S.days[8][6]==='¥12,000','Trip Summary Day 9 budget is not current');
+assert(D.days.find(d=>d.day===8).timeline.some(r=>String(r[2]).includes('Yakushido')),'Day 8 is missing Yakushido / old Kamicho route');
+assert(D.days.find(d=>d.day===8).timeline.some(r=>String(r[2]).includes('DEEPER / QUIETER ROUTE')),'Day 8 deeper Shinshoji route is missing');
+assert(D.days.find(d=>d.day===8).timeline.some(r=>String(r[2]).includes('deep loop')),'Day 8 Naritasan Park deep loop is missing');
+assert(String(M.transport[8][2][1]).includes('10:10')&&String(M.transport[8][2][1]).includes('10:25'),'Day 8 inbound Toyoko shuttle backups are missing');
+assert(String(M.transport[8][4][1]).includes('11:15'),'Day 8 hotel→T2 shuttle backup is missing');
+assert(String(M.transport[8][9][1]).includes('18:45'),'Day 8 evening Toyoko shuttle backup is missing');
+assert(X.reservations.some(r=>r[0]==='MAPPA EXPO 15th Anniversary'&&String(r[3]).includes('PHYSICAL TICKET')),'MAPPA physical-ticket issuance action is missing');
+assert(X.reservations.some(r=>r[0]==='Hitsumabushi Nagoya Bincho — Ikebukuro PARCO'&&String(r[3]).includes('ALLERGY CONTACT PENDING')),'Bincho allergy-contact action is missing');
+assert(X.reservations.some(r=>String(r[0]).includes('Custom Cake')&&String(r[3]).includes('DECIDE NOW')),'Custom cake final-decision status is missing');
+assert(X.reservations.some(r=>r[0]==='Toyoko Inn Narita Airport Honkan'&&String(r[3]).includes('BAG DROP CONFIRM PENDING')),'Toyoko bag-drop confirmation action is missing');
+assert(X.budget.some(r=>String(r[0]).includes('additional baggage')&&String(r[2]).includes('BAGGAGE PIECE COUNT')),'Baggage piece-count warning is missing');
 const latestData=JSON.stringify({days:D.days,transport:M.transport,schedule:M.schedule,planning:M.planning,reservations:X.reservations,budget:X.budget,summary:S});
 assert(!latestData.includes('Manmaru Honten'),'Superseded Manmaru data leaked through the final Sheet sync');
 assert(!latestData.includes('1781870115'),'Private Toyoko/Agoda booking ID leaked into public app data');
 assert(!latestData.includes('R202609111253-S474iC'),'Private Dr.STONE reservation ID leaked into public app data');
+assert(!latestData.includes('8894163455'),'Private MAPPA booking number leaked into public app data');
+assert(!latestData.includes('639778444281'),'Private MAPPA pickup phone leaked into public app data');
+assert(!latestData.includes('CM14'),'Private MAPPA pickup code leaked into public app data');
 
 const ifTime=read('if-time-v23.js');
 assert(ifTime.includes("title:'🌸 NEAR HOTEL / EASY ANY-DAY BONUSES'")&&ifTime.includes("title:'🍜 RESTAURANTS / FOOD BACKUPS'")&&ifTime.includes("title:'🛍️ SHOPPING / ANIME / FRAGRANCE'")&&ifTime.includes("title:'🌿 QUIET / SCENIC / ARCHITECTURE'"),'If We Have Time section structure is incomplete');

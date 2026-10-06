@@ -18,7 +18,9 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('Manmaru Honten',{exact:false})).toHaveCount(0);
 
   await page.locator('button[data-day="8"]').click();
-  await expect(page.getByText('Naritasan Park — NATURE PRIORITY',{exact:true})).toBeVisible();
+  await expect(page.getByText('Narita Omotesando + Yakushido + Old Kamicho Streets',{exact:true})).toBeVisible();
+  await expect(page.getByText('Naritasan Shinshoji — DEEPER / QUIETER ROUTE',{exact:true})).toBeVisible();
+  await expect(page.getByText('Naritasan Park deep loop — NATURE PRIORITY',{exact:true})).toBeVisible();
   await expect(page.getByText('¥40,000',{exact:true}).first()).toBeVisible();
 
   await page.locator('button[data-day="9"]').click();
@@ -56,6 +58,9 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.locator('.transport-leg')).toHaveCount(15);
   await page.locator('button[data-transit-day="8"]').click();
   await expect(page.getByText('Narita T2 → Toyoko Inn Narita Airport Honkan',{exact:true}).first()).toBeVisible();
+  await expect(page.getByText('10:10 / 10:25',{exact:false}).first()).toBeVisible();
+  await expect(page.getByText('11:15',{exact:false}).first()).toBeVisible();
+  await expect(page.getByText('18:45',{exact:false}).first()).toBeVisible();
   await expect(page.locator('.transport-leg')).toHaveCount(10);
   await page.locator('button[data-transit-day="9"]').click();
   await expect(page.getByText('Cebu Terminal 2 → Terminal 1 connection')).toBeVisible();
@@ -64,20 +69,26 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await topView(page,'reservations').click();
   await expect(page.getByRole('heading',{name:'MAPPA EXPO 15th Anniversary'})).toBeVisible();
   await expect(page.getByText('Oct 21 • 16:00',{exact:true})).toBeVisible();
-  await expect(page.getByText('✅ BOOKED',{exact:true}).first()).toBeVisible();
+  await expect(page.getByText('PHYSICAL TICKET ISSUANCE PENDING',{exact:false})).toBeVisible();
+  await expect(page.getByText('Lawson/Loppi on Oct 18–20',{exact:false})).toBeVisible();
+  await expect(page.getByText('8894163455',{exact:false})).toHaveCount(0);
+  await expect(page.getByText('639778444281',{exact:false})).toHaveCount(0);
+  await expect(page.getByText('CM14',{exact:false})).toHaveCount(0);
   await expect(page.getByRole('heading',{name:'Dr.STONE PARTY vol.2 — NATSLIVE CAFE Omotesando'})).toBeVisible();
   await expect(page.getByText('R202609111253-S474iC',{exact:false})).toHaveCount(0);
   await expect(page.getByText('private reservation identifier remains in the Google Sheet / confirmation',{exact:false})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Hitsumabushi Nagoya Bincho — Ikebukuro PARCO'})).toBeVisible();
   await expect(page.getByText('BOOKED — Sep 12, 2026',{exact:true})).toBeVisible();
-  await expect(page.getByText("Booked through the restaurant's EBICA reservation site.",{exact:false})).toBeVisible();
+  await expect(page.getByText('ALLERGY CONTACT PENDING',{exact:false})).toBeVisible();
+  await expect(page.getByText('エビ・カニに重いアレルギーがあります。',{exact:false})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Miyanoen Sayama Tea-Picking'})).toBeVisible();
   await expect(page.getByText('BOOKED — Sep 17, 2026',{exact:true})).toBeVisible();
   await expect(page.getByText('Do not shorten the experience to force one bus.',{exact:false})).toBeVisible();
   await expect(page.getByRole('heading',{name:'夜のケーキ屋さん®️歌舞伎町 — Custom Cake'})).toBeVisible();
-  await expect(page.getByText('Primary pickup Oct 20 if tracking says ready',{exact:false})).toBeVisible();
+  await expect(page.getByText('DECIDE NOW — ORDER OR REMOVE',{exact:false})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Toyoko Inn Narita Airport Honkan'})).toBeVisible();
-  await expect(page.getByText('Oct 25–26 • 1 night',{exact:true})).toBeVisible();
+  await expect(page.getByText('BAG DROP CONFIRM PENDING',{exact:false})).toBeVisible();
+  await expect(page.getByText('10:10/10:25 backups',{exact:false})).toBeVisible();
   await expect(page.getByText('1781870115',{exact:false})).toHaveCount(0);
 
   await topView(page,'budget').click();
@@ -87,6 +98,7 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByRole('heading',{name:'Day 8 – Early Narita + Toyoko Bag Drop + Naritasan Nature'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Day 9 – Departure via Cebu'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'TOTAL TRIP BUDGET'})).toBeVisible();
+  await expect(page.getByText('BAGGAGE PIECE COUNT',{exact:false})).toBeVisible();
   await expect(page.getByText('¥703,500  |  ≈ ₱281,400',{exact:true})).toBeVisible();
 });
 
