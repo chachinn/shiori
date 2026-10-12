@@ -135,14 +135,17 @@ test('If We Have Time mirrors current grouped Sheet and persists cross-offs',asy
 });
 
 
-test('Outfit Lookbook mirrors the new Sheet tab without publishing source photos',async({page})=>{
+test('Outfit Lookbook shows the actual Sheet photos',async({page})=>{
   await page.goto('/');
   await topView(page,'lookbook').click();
   await expect(page.getByRole('heading',{name:'Outfit Lookbook'})).toBeVisible();
   await expect(page.locator('.lookbook-card')).toHaveCount(9);
   await expect(page.getByText('Iloilo → Manila → Narita → Takadanobaba',{exact:true})).toBeVisible();
   await expect(page.getByText('Narita → Cebu → Iloilo',{exact:true})).toBeVisible();
-  await expect(page.getByText('The source outfit photos stay in your Google Sheet.',{exact:false})).toBeVisible();
+  await expect(page.getByText('ACTUAL SHEET PHOTOS',{exact:true})).toBeVisible();
+  await expect(page.getByText('Martin Day 9 is blank in the Sheet',{exact:true})).toBeVisible();
+  const photo=page.locator('.lookbook-photo-sheet');
+  await expect(photo).toBeVisible();
+  await expect(photo).toHaveAttribute('src',/^data:image\/webp;base64,/);
   await expect(page.getByText('Not added to the Sheet yet',{exact:true})).toBeVisible();
-  await expect(page.locator('.lookbook-card img')).toHaveCount(0);
 });
