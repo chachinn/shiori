@@ -25,6 +25,8 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
 
   await page.locator('button[data-day="9"]').click();
   await expect(page.getByText('5J 5063 Narita T2 → Cebu T2',{exact:true})).toBeVisible();
+  await expect(page.getByText('5J 4084 Cebu T1 → Iloilo',{exact:true})).toBeVisible();
+  await expect(page.getByText('20:30',{exact:true}).first()).toBeVisible();
   await expect(page.getByText('¥12,000',{exact:true}).first()).toBeVisible();
 
   await topView(page,'schedule').click();
@@ -41,7 +43,8 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('N’EX 9',{exact:false}).first()).toBeVisible();
   await expect(page.locator('.sched-time')).toHaveCount(96);
   await page.locator('button[data-schedule-day="9"]').click();
-  await expect(page.getByText('Cebu T2 → T1 connection',{exact:false})).toBeVisible();
+  await expect(page.getByText('Cebu T1 layover',{exact:false})).toBeVisible();
+  await expect(page.getByText('5J 4084',{exact:false}).first()).toBeVisible();
   await expect(page.locator('.sched-time')).toHaveCount(96);
 
   await topView(page,'transport').click();
@@ -63,7 +66,9 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('18:45',{exact:false}).first()).toBeVisible();
   await expect(page.locator('.transport-leg')).toHaveCount(10);
   await page.locator('button[data-transit-day="9"]').click();
-  await expect(page.getByText('Cebu Terminal 2 → Terminal 1 connection')).toBeVisible();
+  await expect(page.getByText('Cebu Terminal 2 → Terminal 1 connection',{exact:true}).first()).toBeVisible();
+  await expect(page.getByText('Cebu Pacific 5J 4084',{exact:true})).toBeVisible();
+  await expect(page.getByText('19:35–20:30',{exact:true})).toBeVisible();
   await expect(page.locator('.transport-leg')).toHaveCount(5);
 
   await topView(page,'reservations').click();
@@ -116,7 +121,9 @@ test('If We Have Time mirrors current grouped Sheet and persists cross-offs',asy
   await expect(page.getByText('SOOTANG HOBBY OMOTESANDO',{exact:true})).toBeVisible();
   await expect(page.getByText('Zoshigaya Kishimojindo (鬼子母神堂)',{exact:true})).toBeVisible();
   await expect(page.getByText('Jiyugakuen Myonichikan (自由学園明日館)',{exact:true})).toBeVisible();
-  await expect(page.locator('.iftime-row')).toHaveCount(26);
+  await expect(page.getByText('Otomeyama Park (おとめ山公園)',{exact:true})).toBeVisible();
+  await expect(page.getByText('Fashion Center Shimamura Takadanobaba',{exact:true})).toBeVisible();
+  await expect(page.locator('.iftime-row')).toHaveCount(28);
 
   const row=page.locator('.iftime-row').filter({hasText:'Bic Camera Yurakucho'});
   const check=row.locator('[data-iftime-v23-tick]');
@@ -125,4 +132,17 @@ test('If We Have Time mirrors current grouped Sheet and persists cross-offs',asy
   await page.reload();
   await expect(page.getByRole('heading',{name:'✨ IF WE HAVE TIME — NEARBY OPTIONS'})).toBeVisible();
   await expect(page.locator('.iftime-row').filter({hasText:'Bic Camera Yurakucho'})).toHaveClass(/done/);
+});
+
+
+test('Outfit Lookbook mirrors the new Sheet tab without publishing source photos',async({page})=>{
+  await page.goto('/');
+  await topView(page,'lookbook').click();
+  await expect(page.getByRole('heading',{name:'Outfit Lookbook'})).toBeVisible();
+  await expect(page.locator('.lookbook-card')).toHaveCount(9);
+  await expect(page.getByText('Iloilo → Manila → Narita → Takadanobaba',{exact:true})).toBeVisible();
+  await expect(page.getByText('Narita → Cebu → Iloilo',{exact:true})).toBeVisible();
+  await expect(page.getByText('The source outfit photos stay in your Google Sheet.',{exact:false})).toBeVisible();
+  await expect(page.getByText('Not added to the Sheet yet',{exact:true})).toBeVisible();
+  await expect(page.locator('.lookbook-card img')).toHaveCount(0);
 });
