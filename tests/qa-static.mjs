@@ -117,6 +117,12 @@ assert(sw.includes("'lookbook-v30.js'")&&sw.includes("'lookbook-v30.css'"),'Outf
 for(const place of ['Otomeyama Park (おとめ山公園)','Fashion Center Shimamura Takadanobaba'])assert(lookbook.includes(place),`Latest If We Have Time patch is missing ${place}`);
 for(let d=1;d<=9;d++)assert(lookbook.includes(`day:${d},`),`Outfit Lookbook is missing Day ${d}`);
 assert(lookbook.includes("martin:'Not added to the Sheet yet'"),'Outfit Lookbook should preserve the blank Martin Day 9 source state');
+assert(lookbook.includes('PHOTO_PARTS')&&lookbook.includes('data-outfit-photo'),'Outfit Lookbook photo loader is missing');
+for(let i=1;i<=7;i++){
+  const p=`assets/outfits/lookbook-${i}.txt`;
+  assert(fs.existsSync(path.join(root,p)),`Missing outfit photo chunk ${i}`);
+  assert(sw.includes(`'${p}'`),`Outfit photo chunk ${i} is not cached for offline use`);
+}
 const app=read('app.js');
 assert(app.includes('["days","🗓️","Days"]')&&app.includes('["summary","♡","Summary"]')&&app.includes('["transport","🚆","Transit"]')&&app.includes('["reservations","🎟️","Book"]')&&app.includes('["budget","¥","Budget"]'),'Bottom-nav contract changed unexpectedly');
 const cleanup=read('ui-cleanup-v13.js');assert(cleanup.includes('delete labels.planning'),'Planning removal guard is missing');
