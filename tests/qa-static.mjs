@@ -116,7 +116,7 @@ assert(!latestData.includes('CM14'),'Private MAPPA pickup code leaked into publi
 assert(!latestData.includes('Cha 11C')&&!latestData.includes('Martin 11B')&&!latestData.includes('Cha 16B')&&!latestData.includes('Martin 16C'),'Private seat assignments leaked into public app data');
 
 const ifTime=read('if-time-v23.js');
-assert(ifTime.includes("title:'🌸 NEAR HOTEL / EASY ANY-DAY BONUSES'")&&ifTime.includes("title:'🍜 RESTAURANTS / FOOD BACKUPS'")&&ifTime.includes("title:'🛍️ SHOPPING / ANIME / FRAGRANCE'")&&ifTime.includes("title:'🌿 QUIET / SCENIC / ARCHITECTURE'"),'If We Have Time section structure is incomplete');
+for(const name of ['🌸 NEAR HOTEL / EASY ANY-DAY BONUSES','🍜 RESTAURANTS / FOOD BACKUPS','🛍️ SHOPPING / ANIME / FRAGRANCE','🌿 QUIET / SCENIC / ARCHITECTURE'])assert(ifTime.includes(name),'If We Have Time is missing group: '+name);
 for(const place of ['Mejiro Garden (目白庭園)','SOOTANG HOBBY OMOTESANDO','Zoshigaya Kishimojindo (鬼子母神堂)','Jiyugakuen Myonichikan (自由学園明日館)'])assert(ifTime.includes(place),`If We Have Time is missing ${place}`);
 
 const lookbook=read('lookbook-v30.js');
