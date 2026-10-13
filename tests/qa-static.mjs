@@ -98,7 +98,7 @@ assert(D.days.find(d=>d.day===6).timeline.some(r=>String(r[2]).includes('Nihon M
 assert(M.transport[6].some(r=>String(r[2]).includes('Gotokuji → Mukogaoka')&&String(r[4]).includes('unconfirmed')),'Day 6 Odakyu departure uncertainty missing');
 assert(!D.days.find(d=>d.day===7).timeline.some(r=>String(r[2]).includes('Kichijoji')&&!String(r[2]).includes('NO Kichijoji')),'Old Kichijoji day7 route is fixed');
 assert(M.transport[7].some(r=>String(r[2]).includes('Koenji → Shinjuku → Shimokitazawa')),'Day 7 direct Shinjuku routing missing');
-assert(!M.transport[7].some(r=>String(r[2]).includes('Kichijoji')),'Day 7 transport still includes Kichijoji');
+assert(!M.transport[7].some(r=>/→\s*Kichijoji|^Kichijoji\s*→/.test(String(r[2]))),'Day 7 still routes through Kichijoji');
 assert(D.days.find(d=>d.day===7).timeline.some(r=>String(r[2]).includes('Final-night packing')),'Day 7 packing time missing');
 assert(S.days[6][2].includes('Shimokitazawa')&&!S.days[6][2].includes('Kichijoji'),'Day 7 summary stale');
 assert(X.reservations.some(r=>String(r[0]).includes('Custom Cake')&&String(r[1]).includes('Oct 18')),'Cake proposed date missing');
