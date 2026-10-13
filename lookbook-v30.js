@@ -10,10 +10,10 @@
     {day:1,date:'Oct 18 · Sun',route:'Iloilo → Manila → Narita → Takadanobaba',cha:'Brown jacket • black fitted/corset-style top • light gray wide-leg pants',martin:'Gray zip hoodie • gray sweatpants'},
     {day:2,date:'Oct 19 · Mon',route:'Kamakura • Great Buddha • coastal temples • Enoshima • Iwaya • sunset',cha:'Dusty-pink cardigan • white layered/ruffled skirt • sneakers',martin:'Cream/off-white jacket • white top • dark trousers'},
     {day:3,date:'Oct 20 · Tue',route:'Shinjuku • LUTIA • Omotesando • Dr.STONE • Shibuya shopping',cha:'Pink cardigan • pale pink skirt',martin:'Light-pink overshirt • cream top • off-white trousers'},
-    {day:4,date:'Oct 21 · Wed',route:'Kokubunji • gardens • temple • MAPPA EXPO • Ginza',cha:'Textured green/brown jacket • black top • brown plaid skirt',martin:'Olive overshirt • tan T-shirt • white trousers'},
+    {day:4,date:'Oct 21 · Wed',route:'Kokubunji • gardens/springs • Edo-Tokyo Open Air Museum • MAPPA EXPO • Ginza',cha:'Textured green/brown jacket • black top • brown plaid skirt',martin:'Olive overshirt • tan T-shirt • white trousers'},
     {day:5,date:'Oct 22 · Thu',route:'Yokohama • Yamate • BSD museum • Chinatown • waterfront',cha:'Textured green/brown jacket • black top • light-blue jeans',martin:'Cream jacket • navy patterned shirt • blue jeans'},
     {day:6,date:'Oct 23 · Fri',route:'Gotokuji • Nihon Minka-en • Ikebukuro • SPY musical',cha:'Brown jacket • beige top • black corset belt • white skirt • brown boots',martin:'Cream polo/overshirt • dark trousers'},
-    {day:7,date:'Oct 24 · Sat',route:'Sayama tea picking • Edo-Tokyo Open Air Museum • Shimokitazawa',cha:'Brown jacket • gray ruffled top • brown skirt • dark boots',martin:'Olive overshirt • black shirt • tan trousers'},
+    {day:7,date:'Oct 24 · Sat',route:'Sayama tea picking • Koenji Yokai Parade • Kichijoji flex • Shimokitazawa',cha:'Brown jacket • gray ruffled top • brown skirt • dark boots',martin:'Olive overshirt • black shirt • tan trousers'},
     {day:8,date:'Oct 25 · Sun',route:'Narita • Omotesando • Shinshoji • Naritasan Park',cha:'Textured green/brown jacket • olive/khaki midi dress',martin:'Khaki short-sleeve shirt • white trousers'},
     {day:9,date:'Oct 26 · Mon',route:'Narita → Cebu → Iloilo',cha:'Brown jacket • black graphic top • light-gray pants',martin:'Not added to the Sheet yet'}
   ];

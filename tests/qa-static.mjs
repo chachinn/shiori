@@ -27,10 +27,10 @@ for(const ref of core){if(ref!=='./')assert(fs.existsSync(path.join(root,ref)),`
 // Keep static integrity checks limited to data-only layers. Browser-coupled sync/UI
 // layers are covered by Playwright below in the QA workflow.
 const context=vm.createContext({window:{},console});
-for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js','sheet-sync-v27.js','sheet-sync-v28.js','sheet-sync-v29.js','sheet-sync-v30.js'])vm.runInContext(read(file),context,{filename:file});
+for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js','sheet-sync-v27.js','sheet-sync-v28.js','sheet-sync-v29.js','sheet-sync-v30.js','sheet-sync-v32.js'])vm.runInContext(read(file),context,{filename:file});
 const D=context.window.SHioriData,M=context.window.SHioriSheetMirror,X=context.window.SHioriSheetExtra,S=context.window.SHioriFullSummary;
 assert(D&&M&&X&&S,'One or more runtime data mirrors failed to initialize');
-assert(context.window.SHioriSheetSyncVersion==='2026-10-12-v30','Latest Sheet sync patch did not execute');
+assert(context.window.SHioriSheetSyncVersion==='2026-10-13-v32','Latest Sheet sync patch did not execute');
 assert(Array.isArray(D.days)&&D.days.length===9,`Expected 9 itinerary days, got ${D.days?.length}`);
 assert(new Set(D.days.map(d=>d.day)).size===9,'Itinerary day numbers are duplicated');
 
@@ -80,6 +80,14 @@ assert(S.budget[0][1]==='¥696,000'&&S.budget.at(-1)[1]==='¥703,500','Trip Summ
 assert(D.days.some(d=>d.day===9&&d.title==='Departure via Cebu'),'Day 9 departure itinerary is missing');
 assert(M.transport[8].some(r=>String(r[2]).includes('Toyoko Inn Narita Airport Honkan')),'Day 8 Toyoko transport is missing');
 assert(M.transport[9].some(r=>String(r[2]).includes('Cebu Terminal 2 → Terminal 1')),'Day 9 Cebu terminal transfer is missing');
+assert(M.transport[4].length===8&&M.transport[4].some(r=>String(r[2]).includes('Edo-Tokyo Open Air')),'Day 4 museum transit not synced');
+assert(M.transport[7].some(r=>String(r[2]).includes('Koenji')),'Day 7 Koenji transit not synced');
+assert(D.days.find(d=>d.day===4).timeline.some(r=>r[2].includes('Restaurant Kura')),'Day 4 museum lunch not synced');
+assert(!D.days.find(d=>d.day===4).timeline.some(r=>r[2].includes('Hōnenya')),'Day 4 old soba lunch remains');
+assert(D.days.find(d=>d.day===7).timeline.some(r=>r[2].includes('Tokyo Hyakki Yako')),'Day 7 yokai parade missing');
+assert(!D.days.find(d=>d.day===7).timeline.some(r=>r[2].includes('Edo-Tokyo')),'Day 7 old museum still fixed');
+assert(S.days[3][2].includes('Edo-Tokyo')&&S.days[6][2].includes('Koenji'),'Summary day 4/7 stale');
+assert(X.budget.some(r=>String(r[0]).includes('Day 7 – Sayama Tea + Koenji')),'Budget day 7 stale');
 assert(M.transport[7].length===15,`Day 7 transport should include 13 primary + 2 weather-backup rows, got ${M.transport[7].length}`);
 assert(X.reservations.some(r=>r[0]==='Toyoko Inn Narita Airport Honkan'),'Toyoko hotel booking is missing');
 assert(S.days[8][6]==='¥12,000','Trip Summary Day 9 budget is not current');

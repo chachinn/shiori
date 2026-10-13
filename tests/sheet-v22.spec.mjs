@@ -99,7 +99,8 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await topView(page,'budget').click();
   await expect(page.getByRole('heading',{name:'Day 3 – Lutia + 100-Yen + Dr.STONE Omotesando + Shibuya + Donki + Custom Cake'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Day 6 – Gotokuji + Minka-en + Hitsumabushi Bincho + Ikebukuro Keyboards + SPY×FAMILY 2'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Day 7 – Sayama Tea + Open Air Museum + Kichijoji FLEX + Shimokitazawa'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Day 4 – Kokubunji + Edo-Tokyo Museum + MAPPA + Ginza'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Day 7 – Sayama Tea + Koenji Yokai Parade + Kichijoji FLEX + Shimokitazawa'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Day 8 – Early Narita + Toyoko Bag Drop + Naritasan Nature'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Day 9 – Departure via Cebu'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'TOTAL TRIP BUDGET'})).toBeVisible();
