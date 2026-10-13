@@ -27,10 +27,10 @@ for(const ref of core){if(ref!=='./')assert(fs.existsSync(path.join(root,ref)),`
 // Keep static integrity checks limited to data-only layers. Browser-coupled sync/UI
 // layers are covered by Playwright below in the QA workflow.
 const context=vm.createContext({window:{},console});
-for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js','sheet-sync-v27.js','sheet-sync-v28.js','sheet-sync-v29.js','sheet-sync-v30.js','sheet-sync-v32.js'])vm.runInContext(read(file),context,{filename:file});
+for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js','sheet-sync-v27.js','sheet-sync-v28.js','sheet-sync-v29.js','sheet-sync-v30.js','sheet-sync-v32.js','sheet-sync-v33.js'])vm.runInContext(read(file),context,{filename:file});
 const D=context.window.SHioriData,M=context.window.SHioriSheetMirror,X=context.window.SHioriSheetExtra,S=context.window.SHioriFullSummary;
 assert(D&&M&&X&&S,'One or more runtime data mirrors failed to initialize');
-assert(context.window.SHioriSheetSyncVersion==='2026-10-13-v32','Latest Sheet sync patch did not execute');
+assert(context.window.SHioriSheetSyncVersion==='2026-10-13-v33','Latest Sheet sync patch did not execute');
 assert(Array.isArray(D.days)&&D.days.length===9,`Expected 9 itinerary days, got ${D.days?.length}`);
 assert(new Set(D.days.map(d=>d.day)).size===9,'Itinerary day numbers are duplicated');
 
@@ -88,6 +88,20 @@ assert(D.days.find(d=>d.day===7).timeline.some(r=>r[2].includes('Tokyo Hyakki Ya
 assert(!D.days.find(d=>d.day===7).timeline.some(r=>r[2].includes('Edo-Tokyo')),'Day 7 old museum still fixed');
 assert(S.days[3][2].includes('Edo-Tokyo')&&S.days[6][2].includes('Koenji'),'Summary day 4/7 stale');
 assert(X.budget.some(r=>String(r[0]).includes('Day 7 – Sayama Tea + Koenji')),'Budget day 7 stale');
+assert(D.days.find(d=>d.day===3).timeline.some(r=>String(r[2]).includes('Don Quijote')&&String(r[0]).includes('22:30')),'Day 3 primary Donki finish is not 22:30');
+assert(D.days.find(d=>d.day===3).timeline.some(r=>String(r[2]).includes('Back at Hananosato — PRIMARY')),'Day 3 primary earlier return absent');
+assert(!D.days.find(d=>d.day===3).timeline.some(r=>String(r[2]).includes('cake')&&!String(r[2]).includes('NOT BOOKED')),'Day 3 cake appears confirmed');
+assert(M.transport[3].some(r=>String(r[2]).includes('MEGA Don')&&String(r[1]).includes('22:30')),'Day 3 transport 22:30 primary Donki missing');
+assert(M.schedule[3].some(r=>String(r[1]).includes('Donki')&&String(r[1]).includes('22:30')),'Day 3 schedule late plan stale');
+assert(D.days.find(d=>d.day===6).timeline.some(r=>String(r[2]).includes('Gotokuji Temple')&&String(r[0]).includes('08:45')),'Day 6 Gotokuji early finish missing');
+assert(D.days.find(d=>d.day===6).timeline.some(r=>String(r[2]).includes('Nihon Minka-en')&&String(r[0]).includes('09:45')),'Day 6 Minka-en protected early arrival missing');
+assert(M.transport[6].some(r=>String(r[2]).includes('Gotokuji → Mukogaoka')&&String(r[4]).includes('unconfirmed')),'Day 6 Odakyu departure uncertainty missing');
+assert(!D.days.find(d=>d.day===7).timeline.some(r=>String(r[2]).includes('Kichijoji')&&!String(r[2]).includes('NO Kichijoji')),'Old Kichijoji day7 route is fixed');
+assert(M.transport[7].some(r=>String(r[2]).includes('Koenji → Shinjuku → Shimokitazawa')),'Day 7 direct Shinjuku routing missing');
+assert(!M.transport[7].some(r=>String(r[2]).includes('Kichijoji')),'Day 7 transport still includes Kichijoji');
+assert(D.days.find(d=>d.day===7).timeline.some(r=>String(r[2]).includes('Final-night packing')),'Day 7 packing time missing');
+assert(S.days[6][2].includes('Shimokitazawa')&&!S.days[6][2].includes('Kichijoji'),'Day 7 summary stale');
+assert(X.reservations.some(r=>String(r[0]).includes('Custom Cake')&&String(r[1]).includes('Oct 18')),'Cake proposed date missing');
 assert(M.transport[7].length===15,`Day 7 transport should include 13 primary + 2 weather-backup rows, got ${M.transport[7].length}`);
 assert(X.reservations.some(r=>r[0]==='Toyoko Inn Narita Airport Honkan'),'Toyoko hotel booking is missing');
 assert(S.days[8][6]==='¥12,000','Trip Summary Day 9 budget is not current');

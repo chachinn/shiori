@@ -9,6 +9,7 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('Dr.STONE PARTY vol.2 — ✅ BOOKED 14:50')).toBeVisible();
   await expect(page.getByText('¥225,000',{exact:true}).first()).toBeVisible();
 
+  await expect(page.getByText('Back at Hananosato — PRIMARY',{exact:true})).toBeVisible();
   await page.locator('button[data-day="4"]').click();
   await expect(page.getByText('MAPPA EXPO 15th Anniversary — ✅ BOOKED')).toBeVisible();
   await expect(page.getByText('¥129,000',{exact:true}).first()).toBeVisible();
@@ -17,6 +18,8 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('Hitsumabushi Nagoya Bincho — ✅ BOOKED 13:30',{exact:true})).toBeVisible();
   await expect(page.getByText('Manmaru Honten',{exact:false})).toHaveCount(0);
 
+  await page.locator('button[data-day="7"]').click();
+  await expect(page.getByText('Final-night packing at Hananosato',{exact:true})).toBeVisible();
   await page.locator('button[data-day="8"]').click();
   await expect(page.getByText('Narita Omotesando + Yakushido + Old Kamicho Streets',{exact:true})).toBeVisible();
   await expect(page.getByText('Naritasan Shinshoji — DEEPER / QUIETER ROUTE',{exact:true})).toBeVisible();
@@ -52,11 +55,12 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('Lutia / Shinjuku → NATSLIVE CAFE Omotesando')).toBeVisible();
   await expect(page.getByText('Nakano → Shinjuku → Shibuya')).toHaveCount(0);
   await expect(page.locator('.transport-leg')).toHaveCount(12);
+  await expect(page.getByText('21:30–22:30 PRIMARY',{exact:false}).first()).toBeVisible();
   await page.locator('button[data-transit-day="6"]').click();
   await expect(page.getByText('Ikebukuro Station → Ikebukuro PARCO Main Building 8F')).toBeVisible();
   await expect(page.locator('.transport-leg')).toHaveCount(12);
   await page.locator('button[data-transit-day="7"]').click();
-  await expect(page.getByText('Kichijoji → Shimokitazawa',{exact:true}).first()).toBeVisible();
+  await expect(page.getByText('Koenji → Shinjuku → Shimokitazawa (direct priority)',{exact:true}).first()).toBeVisible();
   await expect(page.getByText('Kagurazaka',{exact:false})).toHaveCount(0);
   await expect(page.locator('.transport-leg')).toHaveCount(15);
   await page.locator('button[data-transit-day="8"]').click();
@@ -97,10 +101,10 @@ test('latest Sheet updates appear across itinerary, schedule, transport, booking
   await expect(page.getByText('1781870115',{exact:false})).toHaveCount(0);
 
   await topView(page,'budget').click();
-  await expect(page.getByRole('heading',{name:'Day 3 – Lutia + 100-Yen + Dr.STONE Omotesando + Shibuya + Donki + Custom Cake'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Day 3 – Lutia + 100-Yen + Dr.STONE + Shibuya + Donki (custom cake reserve/date pending)'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Day 6 – Gotokuji + Minka-en + Hitsumabushi Bincho + Ikebukuro Keyboards + SPY×FAMILY 2'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Day 4 – Kokubunji + Edo-Tokyo Museum + MAPPA + Ginza'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Day 7 – Sayama Tea + Koenji Yokai Parade + Kichijoji FLEX + Shimokitazawa'})).toBeVisible();
+  await expect(page.getByRole('heading',{name:'Day 7 – Sayama Tea + Koenji Yokai Parade + Direct Shimokitazawa'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Day 8 – Early Narita + Toyoko Bag Drop + Naritasan Nature'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'Day 9 – Departure via Cebu'})).toBeVisible();
   await expect(page.getByRole('heading',{name:'TOTAL TRIP BUDGET'})).toBeVisible();
