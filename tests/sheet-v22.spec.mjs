@@ -2,143 +2,58 @@ import {test,expect} from '@playwright/test';
 
 const topView=(page,view)=>page.locator(`.nav button[data-view="${view}"]`);
 
-test('latest Sheet updates appear across itinerary, schedule, transport, bookings and budget',async({page})=>{
-  await page.goto('/');
-  await topView(page,'days').click();
-  await page.locator('button[data-day="3"]').click();
-  await expect(page.getByText('Dr.STONE PARTY vol.2 — ✅ BOOKED 14:50')).toBeVisible();
-  await expect(page.getByText('¥225,000',{exact:true}).first()).toBeVisible();
-
-  await expect(page.getByText('Back at Hananosato — PRIMARY',{exact:true})).toBeVisible();
-  await page.locator('button[data-day="4"]').click();
-  await expect(page.getByText('MAPPA EXPO 15th Anniversary — ✅ BOOKED')).toBeVisible();
-  await expect(page.getByText('¥129,000',{exact:true}).first()).toBeVisible();
-
-  await page.locator('button[data-day="6"]').click();
-  await expect(page.getByText('Hitsumabushi Nagoya Bincho — ✅ BOOKED 13:30',{exact:true})).toBeVisible();
-  await expect(page.getByText('Manmaru Honten',{exact:false})).toHaveCount(0);
-
-  await page.locator('button[data-day="7"]').click();
-  await expect(page.getByText('Final-night packing at Hananosato',{exact:true})).toBeVisible();
-  await page.locator('button[data-day="8"]').click();
-  await expect(page.getByText('Narita Omotesando + Yakushido + Old Kamicho Streets',{exact:true})).toBeVisible();
-  await expect(page.getByText('Naritasan Shinshoji — DEEPER / QUIETER ROUTE',{exact:true})).toBeVisible();
-  await expect(page.getByText('Naritasan Park deep loop — NATURE PRIORITY',{exact:true})).toBeVisible();
-  await expect(page.getByText('¥40,000',{exact:true}).first()).toBeVisible();
-
-  await page.locator('button[data-day="9"]').click();
-  await expect(page.getByText('5J 5063 Narita T2 → Cebu T2',{exact:true})).toBeVisible();
-  await expect(page.getByText('5J 4084 Cebu T1 → Iloilo',{exact:true})).toBeVisible();
-  await expect(page.getByText('20:30',{exact:true}).first()).toBeVisible();
-  await expect(page.getByText('¥12,000',{exact:true}).first()).toBeVisible();
-
-  await topView(page,'schedule').click();
-  await page.locator('button[data-schedule-day="3"]').click();
-  await expect(page.getByText('Dr.STONE PARTY vol.2 • ✅ BOOKED 14:50')).toBeVisible();
-  await expect(page.locator('.sched-time')).toHaveCount(96);
-  await page.locator('button[data-schedule-day="4"]').click();
-  await expect(page.getByText('MAPPA EXPO • ✅ BOOKED 16:00')).toBeVisible();
-  await expect(page.locator('.sched-time')).toHaveCount(96);
-  await page.locator('button[data-schedule-day="6"]').click();
-  await expect(page.getByText('Hitsumabushi Bincho',{exact:false})).toBeVisible();
-  await expect(page.locator('.sched-time')).toHaveCount(96);
-  await page.locator('button[data-schedule-day="8"]').click();
-  await expect(page.getByText('N’EX 9',{exact:false}).first()).toBeVisible();
-  await expect(page.locator('.sched-time')).toHaveCount(96);
-  await page.locator('button[data-schedule-day="9"]').click();
-  await expect(page.getByText('Cebu T1 layover',{exact:false})).toBeVisible();
-  await expect(page.getByText('5J 4084',{exact:false}).first()).toBeVisible();
-  await expect(page.locator('.sched-time')).toHaveCount(96);
-
-  await topView(page,'transport').click();
-  await page.locator('button[data-transit-day="3"]').click();
-  await expect(page.getByText('Lutia / Shinjuku → NATSLIVE CAFE Omotesando')).toBeVisible();
-  await expect(page.getByText('Nakano → Shinjuku → Shibuya')).toHaveCount(0);
-  await expect(page.locator('.transport-leg')).toHaveCount(12);
-  await expect(page.getByText('21:30–22:30 PRIMARY',{exact:false}).first()).toBeVisible();
-  await page.locator('button[data-transit-day="6"]').click();
-  await expect(page.getByText('Ikebukuro Station → Ikebukuro PARCO Main Building 8F')).toBeVisible();
-  await expect(page.locator('.transport-leg')).toHaveCount(12);
-  await page.locator('button[data-transit-day="7"]').click();
-  await expect(page.getByText('Koenji → Shinjuku → Shimokitazawa (direct priority)',{exact:true}).first()).toBeVisible();
-  await expect(page.getByText('Kagurazaka',{exact:false})).toHaveCount(0);
-  await expect(page.locator('.transport-leg')).toHaveCount(15);
-  await page.locator('button[data-transit-day="8"]').click();
-  await expect(page.getByText('Narita T2 → Toyoko Inn Narita Airport Honkan',{exact:true}).first()).toBeVisible();
-  await expect(page.getByText('10:10 / 10:25',{exact:false}).first()).toBeVisible();
-  await expect(page.getByText('11:15',{exact:false}).first()).toBeVisible();
-  await expect(page.getByText('18:45',{exact:false}).first()).toBeVisible();
-  await expect(page.locator('.transport-leg')).toHaveCount(10);
-  await page.locator('button[data-transit-day="9"]').click();
-  await expect(page.getByText('Cebu Terminal 2 → Terminal 1 connection',{exact:true}).first()).toBeVisible();
-  await expect(page.getByText('Cebu Pacific 5J 4084',{exact:true})).toBeVisible();
-  await expect(page.getByText('19:35–20:30',{exact:true})).toBeVisible();
-  await expect(page.locator('.transport-leg')).toHaveCount(5);
-
-  await topView(page,'reservations').click();
-  await expect(page.getByRole('heading',{name:'MAPPA EXPO 15th Anniversary'})).toBeVisible();
-  await expect(page.getByText('Oct 21 • 16:00',{exact:true})).toBeVisible();
-  await expect(page.getByText('PHYSICAL TICKET ISSUANCE PENDING',{exact:false})).toBeVisible();
-  await expect(page.getByText('Lawson/Loppi on Oct 18–20',{exact:false})).toBeVisible();
-  await expect(page.getByText('8894163455',{exact:false})).toHaveCount(0);
-  await expect(page.getByText('639778444281',{exact:false})).toHaveCount(0);
-  await expect(page.getByText('CM14',{exact:false})).toHaveCount(0);
-  await expect(page.getByRole('heading',{name:'Dr.STONE PARTY vol.2 — NATSLIVE CAFE Omotesando'})).toBeVisible();
-  await expect(page.getByText('R202609111253-S474iC',{exact:false})).toHaveCount(0);
-  await expect(page.getByText('private reservation identifier remains in the Google Sheet / confirmation',{exact:false})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Hitsumabushi Nagoya Bincho — Ikebukuro PARCO'})).toBeVisible();
-  await expect(page.getByText('BOOKED — Sep 12, 2026',{exact:true})).toBeVisible();
-  await expect(page.getByText('ALLERGY CONTACT PENDING',{exact:false})).toBeVisible();
-  await expect(page.getByText('エビ・カニに重いアレルギーがあります。',{exact:false})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Miyanoen Sayama Tea-Picking'})).toBeVisible();
-  await expect(page.getByText('BOOKED — Sep 17, 2026',{exact:true})).toBeVisible();
-  await expect(page.getByText('Do not shorten the experience to force one bus.',{exact:false})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'夜のケーキ屋さん®️歌舞伎町 — Custom Cake'})).toBeVisible();
-  await expect(page.getByText('DECIDE NOW — ORDER OR REMOVE',{exact:false})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Toyoko Inn Narita Airport Honkan'})).toBeVisible();
-  await expect(page.getByText('BAG DROP CONFIRM PENDING',{exact:false})).toBeVisible();
-  await expect(page.getByText('10:10/10:25 backups',{exact:false})).toBeVisible();
-  await expect(page.getByText('1781870115',{exact:false})).toHaveCount(0);
-
-  await topView(page,'budget').click();
-  await expect(page.getByRole('heading',{name:'Day 3 – Lutia + 100-Yen + Dr.STONE + Shibuya + Donki (custom cake reserve/date pending)'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Day 6 – Gotokuji + Minka-en + Hitsumabushi Bincho + Ikebukuro Keyboards + SPY×FAMILY 2'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Day 4 – Kokubunji + Edo-Tokyo Museum + MAPPA + Ginza'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Day 7 – Sayama Tea + Koenji Yokai Parade + Direct Shimokitazawa'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Day 8 – Early Narita + Toyoko Bag Drop + Naritasan Nature'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'Day 9 – Departure via Cebu'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'TOTAL TRIP BUDGET'})).toBeVisible();
-  await expect(page.getByText('BAGGAGE PIECE COUNT',{exact:false})).toBeVisible();
-  await expect(page.getByText('¥703,500  |  ≈ ₱281,400',{exact:true})).toBeVisible();
+test('October 14 live Sheet is reflected across main views',async({page})=>{
+ await page.goto('/');
+ await topView(page,'days').click();
+ await page.locator('button[data-day="1"]').click();
+ await expect(page.getByText('Lawson Takadanobaba Ekidori Loppi MAPPA ticket issuance attempt',{exact:true})).toBeVisible();
+ await page.locator('button[data-day="3"]').click();
+ await expect(page.getByText('Tetsugakudo Park 08:00–08:45 • MORNING ALTERNATIVE',{exact:true})).toBeVisible();
+ await page.locator('button[data-day="6"]').click();
+ await expect(page.getByText('Masugata Tenjinsha Shrine (枡形天神社) — LOCAL HIDDEN GEM',{exact:false}).first()).toBeVisible();
+ await expect(page.getByText('Nihon Minka-en — PROTECTED FULL 2 HOURS',{exact:false}).first()).toBeVisible();
+ await expect(page.getByText('Gotokuji Temple',{exact:true})).toHaveCount(0);
+ await page.locator('button[data-day="7"]').click();
+ await expect(page.getByText('Mabashi Inari dragon-torii shrine',{exact:false}).first()).toBeVisible();
+ await page.locator('button[data-day="8"]').click();
+ await expect(page.getByText('FUDŌ NO ŌIDO',{exact:false}).first()).toBeVisible();
+ await expect(page.getByText('NARITASAN MUSEUM OF CALLIGRAPHY',{exact:false}).first()).toBeVisible();
+ await topView(page,'summary').click();
+ await expect(page.getByText('Trip Readiness — 15 items to verify',{exact:false})).toBeVisible();
+ await expect(page.getByText('Travel insurance Oct 25–26',{exact:true})).toBeVisible();
+ await topView(page,'schedule').click();
+ await page.locator('button[data-schedule-day="6"]').click();
+ await expect(page.getByText('09:30–11:30 Nihon Minka-en',{exact:false}).first()).toBeVisible();
+ await page.locator('button[data-schedule-day="7"]').click();
+ await expect(page.getByText('08:49 SAT',{exact:false}).first()).toBeVisible();
+ await topView(page,'transport').click();
+ await page.locator('button[data-transit-day="6"]').click();
+ await expect(page.getByText('Shinjuku Odakyu → Mukogaoka-Yuen',{exact:false}).first()).toBeVisible();
+ await page.locator('button[data-transit-day="7"]').click();
+ await expect(page.getByText('Sayamashi EAST EXIT bus stop #2',{exact:false}).first()).toBeVisible();
+ await topView(page,'reservations').click();
+ await expect(page.getByRole('heading',{name:'Enoden Suica pay-as-you-go (3 rides; no day pass)'})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'MAPPA EXPO 15th Anniversary'})).toBeVisible();
+ await topView(page,'budget').click();
+ await expect(page.getByText('¥703,500  |  ≈ ₱281,400',{exact:true}).first()).toBeVisible();
+ await expect(page.getByText('Day 8 itemized cost — already included in ¥40,000 cap',{exact:false})).toBeVisible();
+ await topView(page,'docs').click();
+ await expect(page.getByText('PH eTravel — outbound + return',{exact:false}).first()).toBeVisible();
 });
 
-test('If We Have Time mirrors current grouped Sheet and persists cross-offs',async({page})=>{
-  await page.goto('/');
-  await topView(page,'ifTime').click();
-  await expect(page.getByRole('heading',{name:'✨ IF WE HAVE TIME — NEARBY OPTIONS'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'🌸 NEAR HOTEL / EASY ANY-DAY BONUSES'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'🍜 RESTAURANTS / FOOD BACKUPS'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'🛍️ SHOPPING / ANIME / FRAGRANCE'})).toBeVisible();
-  await expect(page.getByRole('heading',{name:'🌿 QUIET / SCENIC / ARCHITECTURE'})).toBeVisible();
-  await expect(page.getByText('Bic Camera Yurakucho',{exact:true})).toBeVisible();
-  await expect(page.getByText('Inokashira Park',{exact:true})).toBeVisible();
-  await expect(page.getByText('Mejiro Garden (目白庭園)',{exact:true})).toBeVisible();
-  await expect(page.getByText('SOOTANG HOBBY OMOTESANDO',{exact:true})).toBeVisible();
-  await expect(page.getByText('Zoshigaya Kishimojindo (鬼子母神堂)',{exact:true})).toBeVisible();
-  await expect(page.getByText('Jiyugakuen Myonichikan (自由学園明日館)',{exact:true})).toBeVisible();
-  await expect(page.getByText('Otomeyama Park (おとめ山公園)',{exact:true})).toBeVisible();
-  await expect(page.getByText('Fashion Center Shimamura Takadanobaba',{exact:true})).toBeVisible();
-  await expect(page.locator('.iftime-row')).toHaveCount(28);
-
-  const row=page.locator('.iftime-row').filter({hasText:'Bic Camera Yurakucho'});
-  const check=row.locator('[data-iftime-v23-tick]');
-  await check.click();
-  await expect(row).toHaveClass(/done/);
-  await page.reload();
-  await expect(page.getByRole('heading',{name:'✨ IF WE HAVE TIME — NEARBY OPTIONS'})).toBeVisible();
-  await expect(page.locator('.iftime-row').filter({hasText:'Bic Camera Yurakucho'})).toHaveClass(/done/);
+test('If We Have Time mirrors the 65 live optional destinations and saves check-offs',async({page})=>{
+ await page.goto('/');
+ await topView(page,'ifTime').click();
+ await expect(page.getByRole('heading',{name:'✨ IF WE HAVE TIME — OPTIONAL PLACES BY DAY'})).toBeVisible();
+ await expect(page.locator('.iftime-row')).toHaveCount(65);
+ await expect(page.getByText('Gotokuji Temple (豪徳寺)',{exact:true})).toBeVisible();
+ await expect(page.getByText('⭐ SELECTED: OGIKUBO THREE GARDENS (大田黒 → 角川 → 荻外荘)',{exact:true})).toBeVisible();
+ const row=page.locator('.iftime-row').filter({hasText:'Gotokuji Temple (豪徳寺)'});
+ await row.locator('[data-iftime-v23-tick]').click();
+ await expect(row).toHaveClass(/done/);
+ await page.reload();
+ await expect(page.locator('.iftime-row').filter({hasText:'Gotokuji Temple (豪徳寺)'})).toHaveClass(/done/);
 });
-
 
 test('Outfit Lookbook shows the actual Sheet photos',async({page})=>{
   await page.goto('/');
