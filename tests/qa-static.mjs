@@ -113,8 +113,8 @@ assert(!latestData.includes('CM14'),'Private MAPPA pickup code leaked into publi
 assert(!latestData.includes('Cha 11C')&&!latestData.includes('Martin 11B')&&!latestData.includes('Cha 16B')&&!latestData.includes('Martin 16C'),'Private seat assignments leaked into public app data');
 
 const ifTime=read('if-time-v23.js');
-for(const name of ['DAY 2 • OCT 19','DAY 3 • OCT 20','OGIKUBO THREE GARDENS','FLEXIBLE OTHER-DAY'])assert(context.context.window.SHioriIfTimeSourceV34.some(g=>g.title.includes(name)),'New IfTime group missing '+name);
-for(const place of ['Gotokuji Temple (豪徳寺)','Tetsugakudo Park (哲学堂公園)','Mabashi Inari Shrine (馬橋稲荷神社) — DRAGON TORII'])assert(context.context.window.SHioriIfTimeSourceV34.some(g=>g.rows.some(r=>r[3]===place)),'Missing optional place '+place);
+for(const name of ['DAY 2 • OCT 19','DAY 3 • OCT 20','OGIKUBO THREE GARDENS','FLEXIBLE OTHER-DAY'])assert(context.window.SHioriIfTimeSourceV34.some(g=>g.title.includes(name)),'New IfTime group missing '+name);
+for(const place of ['Gotokuji Temple (豪徳寺)','Tetsugakudo Park (哲学堂公園)','Mabashi Inari Shrine (馬橋稲荷神社) — DRAGON TORII'])assert(context.window.SHioriIfTimeSourceV34.some(g=>g.rows.some(r=>r[3]===place)),'Missing optional place '+place);
 const lookbook=read('lookbook-v30.js');
 assert(index.includes('lookbook-v30.js')&&index.includes('lookbook-v30.css'),'Outfit Lookbook assets are not loaded');
 assert(sw.includes("'lookbook-v30.js'")&&sw.includes("'lookbook-v30.css'"),'Outfit Lookbook assets are not cached');
