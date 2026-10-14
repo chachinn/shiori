@@ -10,7 +10,7 @@ test('Summary shows current open pre-trip actions on mobile', async ({page})=>{
   await expect(panel).toContainText('Action Needed');
   await expect(panel.locator('.action-needed-row').first()).toBeVisible();
   await expect(panel).toContainText('5 open');
-  await expect(panel).toContainText("N'EX TOKYO Round Trip + Reserved Seats");
+  await expect(panel).toContainText("N’EX TOKYO Round Trip + Reserved Seats");
   await expect(panel).toContainText('SPY×FAMILY 2 Musical');
   await expect(panel).toContainText('Custom Cake');
   await expect(panel).toContainText('Hitsumabushi Nagoya Bincho — Ikebukuro PARCO');
