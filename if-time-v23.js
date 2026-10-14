@@ -11,7 +11,7 @@
   function save(){localStorage.setItem('shioriIfTimeDone',JSON.stringify(done))}
   function rowHtml(r){const k=key(r),on=!!done[k];return `<div class="iftime-row ${on?'done':''}"><div class="iftime-check"><button type="button" class="check-btn ${on?'on':''}" data-iftime-v23-tick="${encodeURIComponent(k)}" aria-label="${on?'Mark not visited':'Mark visited'}: ${esc(r[3])}">${on?'✓':''}</button></div>${r.map((v,i)=>`<div data-label="${esc(headers[i])}">${esc(v)}</div>`).join('')}</div>`}
   function groupHtml(g){return `<section class="iftime-group iftime-${g.tone}"><h2>${esc(g.title)}</h2><div class="iftime-table"><div class="iftime-head"><div>✓</div>${headers.map(h=>`<div>${esc(h)}</div>`).join('')}</div>${g.rows.map(rowHtml).join('')}</div></section>`}
-  function view(){return `<main><section class="iftime-sheet-title"><h1>✨ IF WE HAVE TIME — NEARBY OPTIONS</h1><p>Use only when genuinely ahead or already nearby. Never sacrifice fixed bookings or protected itinerary blocks. Hours are planning references — recheck close to travel.</p></section><div class="iftime-groups">${groups.map(groupHtml).join('')}</div></main>`}
+  function view(){return `<main><section class="iftime-sheet-title"><h1>✨ IF WE HAVE TIME — OPTIONAL PLACES BY DAY</h1><p>Use only when genuinely ahead or already nearby. Never sacrifice fixed bookings or protected itinerary blocks. Hours are planning references — recheck close to travel.</p></section><div class="iftime-groups">${groups.map(groupHtml).join('')}</div></main>`}
   const previousRender=render;
   render=function(){
     if(state.view!=='ifTime'){previousRender();return;}

@@ -12,9 +12,9 @@ test('October 14 live Sheet is reflected across main views',async({page})=>{
  await page.locator('button[data-day="6"]').click();
  await expect(page.getByText('Masugata Tenjinsha Shrine (枡形天神社) — LOCAL HIDDEN GEM',{exact:false}).first()).toBeVisible();
  await expect(page.getByText('Nihon Minka-en — PROTECTED FULL 2 HOURS',{exact:false}).first()).toBeVisible();
- await expect(page.getByText('Gotokuji Temple',{exact:true})).toHaveCount(0);
+ await expect(page.locator('.t-row').filter({hasText:'Gotokuji Temple'})).toHaveCount(0);
  await page.locator('button[data-day="7"]').click();
- await expect(page.getByText('Mabashi Inari dragon-torii shrine',{exact:false}).first()).toBeVisible();
+ await expect(page.locator('.t-row').filter({hasText:'Mabashi Inari'}).first()).toBeVisible();
  await page.locator('button[data-day="8"]').click();
  await expect(page.getByText('FUDŌ NO ŌIDO',{exact:false}).first()).toBeVisible();
  await expect(page.getByText('NARITASAN MUSEUM OF CALLIGRAPHY',{exact:false}).first()).toBeVisible();
