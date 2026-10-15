@@ -21,12 +21,24 @@ small{display:block;color:#655b66;margin-top:14px}#result{font-weight:600}
   button.disabled=true;out.textContent='Repairing saved app files…';
   try{
     var root=new URL('./',location.href).href;
+    var cleanWorker=Promise.resolve(),cleanCache=Promise.resolve();
     if('serviceWorker' in navigator){
-      var registrations=await navigator.serviceWorker.getRegistrations();
-      await Promise.all(registrations.filter(function(reg){return reg.scope===root||reg.scope.indexOf(root)===0;}).map(function(reg){return reg.unregister();}));
+      cleanWorker=navigator.serviceWorker.getRegistrations().then(function(registrations){
+        return Promise.all(registrations.filter(function(reg){return reg.scope===root||reg.scope.indexOf(root)===0;}).map(function(reg){return reg.unregister();}));
+      });
     }
-    if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('shiori-')===0;}).map(function(k){return caches.delete(k);}));}
-    out.textContent='App files repaired. Reopening Shiori…';
+    if('caches' in window){
+      cleanCache=caches.keys().then(function(keys){
+        return Promise.all(keys.filter(function(k){return k.indexOf('shiori-')===0;}).map(function(k){return caches.delete(k);}));
+      });
+    }
+    /* iOS WebKit can leave a service-worker unregister promise pending even after completion.
+       Never strand the user on the repair screen; localStorage is never touched. */
+    await Promise.race([
+      Promise.allSettled([cleanWorker,cleanCache]),
+      new Promise(function(resolve){setTimeout(resolve,4000);})
+    ]);
+    out.textContent='Reopening Shiori with fresh app files…';
     location.replace('./?repair=35&bust='+Date.now());
   }catch(err){
     out.textContent='Repair could not finish. Please check your connection and try again. '+String(err&&err.message||'');
