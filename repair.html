@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#c86f92"><title>Shiori — Repair App Cache</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100svh;display:flex;align-items:center;justify-content:center;background:#fff8fc;color:#302d36;font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:22px}
+main{background:#fff;border:1px solid #eedee7;border-radius:20px;padding:25px;max-width:460px;box-shadow:0 10px 32px #dcc4d334}h1{margin:0 0 6px;font-size:25px}p{margin:12px 0 16px}
+button,.btn{display:block;width:100%;padding:13px 18px;border-radius:14px;text-align:center;border:none;background:#bd678d;color:white;font-size:16px;font-weight:700;cursor:pointer;text-decoration:none}.btn{background:#f4e5ed;color:#653147;margin-top:11px}
+small{display:block;color:#655b66;margin-top:14px}#result{font-weight:600}
+</style></head>
+<body><main><h1>🌸 Shiori recovery</h1>
+<p>If Shiori opens to a blank screen, its saved app files may be out of sync. This repairs the app files without deleting your notes, check-offs, packing progress, or other locally saved trip data.</p>
+<button type="button" id="repair">Repair app files and reopen Shiori</button>
+<a class="btn" href="./?retry=35">Try opening Shiori normally</a>
+<p id="result" role="status" aria-live="polite"></p>
+<small>Connect to the internet before repairing. This clears only Shiori's app-file caches and service worker, not localStorage or IndexedDB. Do not uninstall Shiori or clear Safari website data if you want to preserve your saved progress.</small>
+</main><script>
+(function(){
+ var button=document.getElementById('repair'),out=document.getElementById('result');
+ button.addEventListener('click',async function(){
+  button.disabled=true;out.textContent='Repairing saved app files…';
+  try{
+    var root=new URL('./',location.href).href;
+    if('serviceWorker' in navigator){
+      var registrations=await navigator.serviceWorker.getRegistrations();
+      await Promise.all(registrations.filter(function(reg){return reg.scope===root||reg.scope.indexOf(root)===0;}).map(function(reg){return reg.unregister();}));
+    }
+    if('caches' in window){var keys=await caches.keys();await Promise.all(keys.filter(function(k){return k.indexOf('shiori-')===0;}).map(function(k){return caches.delete(k);}));}
+    out.textContent='App files repaired. Reopening Shiori…';
+    location.replace('./?repair=35&bust='+Date.now());
+  }catch(err){
+    out.textContent='Repair could not finish. Please check your connection and try again. '+String(err&&err.message||'');
+    button.disabled=false;
+  }
+ });
+})();
+</script></body></html>

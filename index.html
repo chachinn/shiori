@@ -8,48 +8,62 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Shiori" />
   <title>Shiori — Japan Oct 2026</title>
-  <link rel="manifest" href="manifest.webmanifest?v=34" />
-  <link rel="icon" type="image/png" href="icons/app-icon-128.png?v=34" />
-  <link rel="apple-touch-icon" href="icons/app-icon-128.png?v=34" />
-  <link rel="stylesheet" href="styles.css?v=34" />
-  <link rel="stylesheet" href="ui-v13.css?v=34" />
-  <link rel="stylesheet" href="ui-cleanup-v13.css?v=34" />
-  <link rel="stylesheet" href="ui-typography-v14.css?v=34" />
-  <link rel="stylesheet" href="interaction-tools-v21.css?v=34" />
-  <link rel="stylesheet" href="if-time-v23.css?v=34" />
-  <link rel="stylesheet" href="lookbook-v30.css?v=34" />
+  <link rel="manifest" href="manifest.webmanifest?v=35" />
+  <link rel="icon" type="image/png" href="icons/app-icon-128.png?v=35" />
+  <link rel="apple-touch-icon" href="icons/app-icon-128.png?v=35" />
+  <link rel="stylesheet" href="styles.css?v=35" />
+  <link rel="stylesheet" href="ui-v13.css?v=35" />
+  <link rel="stylesheet" href="ui-cleanup-v13.css?v=35" />
+  <link rel="stylesheet" href="ui-typography-v14.css?v=35" />
+  <link rel="stylesheet" href="interaction-tools-v21.css?v=35" />
+  <link rel="stylesheet" href="if-time-v23.css?v=35" />
+  <link rel="stylesheet" href="lookbook-v30.css?v=35" />
 </head>
 <body>
   <div id="app"></div>
-  <script src="data.js?v=34"></script>
-  <script src="sheet-mirror.js?v=34"></script>
-  <script src="sheet-extra.js?v=34"></script>
-  <script src="summary-full.js?v=34"></script>
-  <script src="sheet-sync.js?v=34"></script>
-  <script src="sheet-sync-v12.js?v=34"></script>
-  <script src="app.js?v=34"></script>
-  <script src="sheet-patch.js?v=34"></script>
-  <script src="summary-patch.js?v=34"></script>
-  <script src="ui-patch-v13.js?v=34"></script>
-  <script src="ui-cleanup-v13.js?v=34"></script>
-  <script src="sheet-sync-v22.js?v=34"></script>
-  <script src="sheet-live-v22.js?v=34"></script>
-  <script src="sheet-sync-v24.js?v=34"></script>
-  <script src="sheet-sync-v25.js?v=34"></script>
-  <script src="sheet-sync-v26.js?v=34"></script>
-  <script src="sheet-sync-v27.js?v=34"></script>
-  <script src="sheet-sync-v28.js?v=34"></script>
-  <script src="sheet-sync-v29.js?v=34"></script>
-  <script src="sheet-sync-v30.js?v=34"></script>
-  <script src="sheet-sync-v32.js?v=34"></script>
-  <script src="sheet-sync-v33.js?v=34"></script>
-  <script src="sheet-sync-v34.js?v=34"></script>
-  <script src="if-time-v23.js?v=34"></script>
-  <script src="lookbook-v30.js?v=34"></script>
-  <script src="ui-extras-v34.js?v=34"></script>
-  <script src="state-runtime-v21.js?v=34"></script>
-  <script src="ui-fix-v14.js?v=34"></script>
-  <script src="interaction-tools-v21.js?v=34"></script>
+  <noscript>Shiori needs JavaScript enabled. Visit repair.html if the app is blank.</noscript>
+  <script>
+  (function(){
+    var failed=false;
+    function recovery(){
+      var app=document.getElementById('app');
+      if(!app||app.querySelector('main'))return;
+      app.innerHTML='<main style="font:16px/1.6 -apple-system,BlinkMacSystemFont,sans-serif;padding:28px;max-width:520px;margin:12vh auto;color:#45303b"><h1 style="font-size:26px">🌸 Shiori needs to reload</h1><p>An app file failed to start. Your local trip progress has not been cleared.</p><a href="repair.html" style="display:block;padding:14px;border-radius:14px;background:#bd678d;color:white;text-align:center;text-decoration:none;font-weight:bold">Repair app files (keep saved progress)</a><p style="font-size:14px">Connect to the internet first. Do not delete the app or Safari website data.</p></main>';
+    }
+    window.addEventListener('error',function(){failed=true;},true);
+    window.addEventListener('unhandledrejection',function(){failed=true;});
+    window.addEventListener('load',function(){setTimeout(function(){if(failed||!document.querySelector('#app main'))recovery();},600);});
+  })();
+  </script>
+  <script src="data.js?v=35"></script>
+  <script src="sheet-mirror.js?v=35"></script>
+  <script src="sheet-extra.js?v=35"></script>
+  <script src="summary-full.js?v=35"></script>
+  <script src="sheet-sync.js?v=35"></script>
+  <script src="sheet-sync-v12.js?v=35"></script>
+  <script src="app.js?v=35"></script>
+  <script src="sheet-patch.js?v=35"></script>
+  <script src="summary-patch.js?v=35"></script>
+  <script src="ui-patch-v13.js?v=35"></script>
+  <script src="ui-cleanup-v13.js?v=35"></script>
+  <script src="sheet-sync-v22.js?v=35"></script>
+  <script src="sheet-live-v22.js?v=35"></script>
+  <script src="sheet-sync-v24.js?v=35"></script>
+  <script src="sheet-sync-v25.js?v=35"></script>
+  <script src="sheet-sync-v26.js?v=35"></script>
+  <script src="sheet-sync-v27.js?v=35"></script>
+  <script src="sheet-sync-v28.js?v=35"></script>
+  <script src="sheet-sync-v29.js?v=35"></script>
+  <script src="sheet-sync-v30.js?v=35"></script>
+  <script src="sheet-sync-v32.js?v=35"></script>
+  <script src="sheet-sync-v33.js?v=35"></script>
+  <script src="sheet-sync-v34.js?v=35"></script>
+  <script src="if-time-v23.js?v=35"></script>
+  <script src="lookbook-v30.js?v=35"></script>
+  <script src="ui-extras-v34.js?v=35"></script>
+  <script src="state-runtime-v21.js?v=35"></script>
+  <script src="ui-fix-v14.js?v=35"></script>
+  <script src="interaction-tools-v21.js?v=35"></script>
   <script>
     document.addEventListener('gesturestart',e=>e.preventDefault(),{passive:false});
     document.addEventListener('gesturechange',e=>e.preventDefault(),{passive:false});
