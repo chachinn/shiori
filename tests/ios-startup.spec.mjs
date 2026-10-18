@@ -8,6 +8,8 @@ test('iPhone-style Safari opens, survives saved state and renders the current it
  await page.locator('.nav button[data-view="ifTime"]').click();
  await expect(page.locator('.iftime-row')).toHaveCount(65);
  await page.locator('.nav button[data-view="days"]').click();
+ await page.locator('button[data-day="2"]').click();
+ await expect(page.getByText('Slam Dunk',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-day="6"]').click();
  await expect(page.getByText('Masugata Tenjinsha',{exact:false}).first()).toBeVisible();
  await page.reload();

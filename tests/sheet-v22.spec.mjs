@@ -2,11 +2,13 @@ import {test,expect} from '@playwright/test';
 
 const topView=(page,view)=>page.locator(`.nav button[data-view="${view}"]`);
 
-test('October 14 live Sheet is reflected across main views',async({page})=>{
+test('October 19 live Sheet is reflected across main views',async({page})=>{
  await page.goto('/');
  await topView(page,'days').click();
  await page.locator('button[data-day="1"]').click();
- await expect(page.getByText('Lawson Takadanobaba Ekidori Loppi MAPPA ticket issuance attempt',{exact:true})).toBeVisible();
+ await expect(page.getByText('✅ MAPPA physical tickets collected Oct 18',{exact:true})).toBeVisible();
+ await page.locator('button[data-day="2"]').click();
+ await expect(page.getByText('Slam Dunk',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-day="3"]').click();
  await expect(page.getByText('Tetsugakudo Park 08:00–08:45 • MORNING ALTERNATIVE',{exact:true})).toBeVisible();
  await page.locator('button[data-day="6"]').click();
@@ -32,7 +34,7 @@ test('October 14 live Sheet is reflected across main views',async({page})=>{
  await page.locator('button[data-transit-day="7"]').click();
  await expect(page.getByText('Sayamashi EAST EXIT bus stop #2',{exact:false}).first()).toBeVisible();
  await topView(page,'reservations').click();
- await expect(page.getByRole('heading',{name:'Enoden Suica pay-as-you-go (3 rides; no day pass)'})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'Enoden Suica pay-as-you-go (4 rides; optional Noriorikun if not yet begun)'})).toBeVisible();
  await expect(page.getByRole('heading',{name:'MAPPA EXPO 15th Anniversary'})).toBeVisible();
  await topView(page,'budget').click();
  await expect(page.getByText('¥703,500  |  ≈ ₱281,400',{exact:true}).first()).toBeVisible();

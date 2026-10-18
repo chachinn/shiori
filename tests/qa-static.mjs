@@ -27,10 +27,10 @@ for(const ref of core){if(ref!=='./')assert(fs.existsSync(path.join(root,ref)),`
 // Keep static integrity checks limited to data-only layers. Browser-coupled sync/UI
 // layers are covered by Playwright below in the QA workflow.
 const context=vm.createContext({window:{},console});
-for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js','sheet-sync-v27.js','sheet-sync-v28.js','sheet-sync-v29.js','sheet-sync-v30.js','sheet-sync-v32.js','sheet-sync-v33.js','sheet-sync-v34.js'])vm.runInContext(read(file),context,{filename:file});
+for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js','sheet-sync-v27.js','sheet-sync-v28.js','sheet-sync-v29.js','sheet-sync-v30.js','sheet-sync-v32.js','sheet-sync-v33.js','sheet-sync-v34.js','sheet-sync-v36.js'])vm.runInContext(read(file),context,{filename:file});
 const D=context.window.SHioriData,M=context.window.SHioriSheetMirror,X=context.window.SHioriSheetExtra,S=context.window.SHioriFullSummary;
 assert(D&&M&&X&&S,'One or more runtime data mirrors failed to initialize');
-assert(context.window.SHioriSheetSyncVersion==='2026-10-14-v34','Latest Sheet sync patch did not execute');
+assert(context.window.SHioriSheetSyncVersion==='2026-10-19-v36','Latest Sheet sync patch did not execute');
 assert(Array.isArray(D.days)&&D.days.length===9,`Expected 9 itinerary days, got ${D.days?.length}`);
 assert(new Set(D.days.map(d=>d.day)).size===9,'Itinerary day numbers are duplicated');
 
@@ -83,8 +83,8 @@ assert(D.days.find(d=>d.day===8).timeline.some(r=>String(r[2]).includes('FUDŌ N
 assert(D.days.find(d=>d.day===8).timeline.some(r=>String(r[2]).includes('CALLIGRAPHY')),'Narita Calligraphy museum missing');
 assert(D.days.find(d=>d.day===3).timeline.every(r=>!String(r[2]).toLowerCase().includes('cake')),'No cake should be scheduled');
 assert(D.days.find(d=>d.day===3).priorities.some(r=>r.includes('Tetsugakudo')),'Day3 alternate Tetsugakudo option missing');
-assert(D.days.find(d=>d.day===1).timeline.some(r=>String(r[2]).includes('Lawson')),'Day1 conditional Lawson pickup missing');
-assert(X.reservations.some(r=>String(r[0]).includes('Enoden Suica')),'Enoden Suica/no day pass update missing');
+assert(D.days.find(d=>d.day===1).timeline.some(r=>String(r[2]).includes('✅ MAPPA physical tickets collected')),'Day1 ticket collection not updated');
+assert(X.reservations.some(r=>String(r[0]).includes('Enoden Suica')&&String(r[0]).includes('4 rides')),'Day2 Enoden 4 ride update missing');
 assert(X.reservations.some(r=>String(r[0]).includes('Romancecar')&&String(r[3]).includes('OPTIONAL')),'Romancecar should remain unbooked optional');
 assert(X.budget.some(r=>r[0]==='TOTAL TRIP BUDGET'&&String(r[1]).includes('703,500')),'Budget safe cap changed');
 assert(Array.isArray(X.day8Breakdown)&&X.day8Breakdown.some(r=>r[0].includes('ESTIMATED DAY 8')),'Day8 cost breakdown missing');
@@ -93,11 +93,16 @@ assert(S.readiness?.length===15,'15 readiness checks missing');
 assert(S.readiness.some(r=>r[1].includes('Travel insurance')&&r[3].includes('OPEN')),'Insurance warning not open');
 assert(S.days[5][1].includes('Masugata'),'Day6 summary stale');
 assert(S.days[7][2].includes('Fudō'),'Day8 summary missing sacred well');
+assert(S.days[1][2].includes('Renbai SKIPPED')&&S.days[1][2].includes('Slam Dunk'),'Day2 live route stale');
+assert(D.days.find(d=>d.day===2).timeline.some(r=>String(r[2]).includes('Slam Dunk')),'Slam Dunk visit missing');
+assert(!D.days.find(d=>d.day===2).timeline.some(r=>String(r[2]).includes('Renbai')),'Skipped market still in timeline');
+assert(M.transport[2].some(r=>String(r[2]).includes('Kamakurakōkō-mae')),'Slam Dunk transport missing');
+assert(S.readiness.find(r=>r[1]==='MAPPA EXPO physical Lawson tickets')[0]==='✅ DONE','Ticket collection status not complete');
 assert(S.budget[0][1]==='¥696,000'&&S.budget.at(-1)[1]==='¥703,500','Summary budget caps stale');
 assert(D.days.find(d=>d.day===9).end==='20:30 Iloilo','Day9 return arrival stale');
 assert(M.transport[9].some(r=>String(r[2]).includes('Cebu Terminal 2 → Terminal 1')),'Cebu airport terminal routing missing');
 assert(S.days[8][5]==='20:30 Iloilo','Day9 arrival summary wrong');
-assert(X.reservations.some(r=>r[0]==='MAPPA EXPO 15th Anniversary'&&r[3].includes('BOOKED')),'MAPPA booking missing');
+assert(X.reservations.some(r=>r[0]==='MAPPA EXPO 15th Anniversary'&&r[3].includes('COLLECTED OCT 18')),'MAPPA tickets not collected');
 assert(X.reservations.some(r=>r[0]==='Hitsumabushi Nagoya Bincho — Ikebukuro PARCO'&&r[3].includes('ALLERGY CONTACT')),'Bincho pending action missing');
 assert(X.reservations.some(r=>String(r[0]).includes('Custom Cake')&&r[1].includes('UNDECIDED')),'Cake must be undecided');
 assert(X.reservations.some(r=>r[0]==='Toyoko Inn Narita Airport Honkan'&&r[3].includes('BAG DROP CONFIRM')),'Toyoko bag drop unresolved');
