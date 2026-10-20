@@ -11,6 +11,11 @@ test('October 19 live Sheet is reflected across main views',async({page})=>{
  await expect(page.getByText('Slam Dunk',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-day="3"]').click();
  await expect(page.getByText('Tetsugakudo Park 08:00–08:45 • MORNING ALTERNATIVE',{exact:true})).toBeVisible();
+ await page.locator('button[data-day="4"]').click();
+ await expect(page.getByText('Edo-Tokyo Open Air Architectural Museum — PROTECTED FULL TWO HOURS',{exact:true})).toBeVisible();
+ await expect(page.getByText('SHIBUYA109 — missing-goods retrieval (SHORT)',{exact:true})).toBeVisible();
+ await expect(page.getByText('OPTION A ONLY • Hotel New Otani Japanese Garden — waterfall/koi/red bridge',{exact:true})).toBeVisible();
+ await expect(page.getByText('OPTION B ONLY • Hibiya Park pond/tree stroll — FREE',{exact:true})).toBeVisible();
  await page.locator('button[data-day="6"]').click();
  await expect(page.getByText('Masugata Tenjinsha Shrine (枡形天神社) — LOCAL HIDDEN GEM',{exact:false}).first()).toBeVisible();
  await expect(page.getByText('Nihon Minka-en — PROTECTED FULL 2 HOURS',{exact:false}).first()).toBeVisible();
@@ -24,11 +29,15 @@ test('October 19 live Sheet is reflected across main views',async({page})=>{
  await expect(page.getByText('Trip Readiness — 15 items to verify',{exact:false})).toBeVisible();
  await expect(page.getByText('Travel insurance Oct 25–26',{exact:true})).toBeVisible();
  await topView(page,'schedule').click();
+ await page.locator('button[data-schedule-day="4"]').click();
+ await expect(page.getByText('Edo-Tokyo Museum PROTECTED FULL TWO HOURS',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-schedule-day="6"]').click();
  await expect(page.getByText('09:30–11:30 Nihon Minka-en',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-schedule-day="7"]').click();
  await expect(page.getByText('08:49 SAT',{exact:false}).first()).toBeVisible();
  await topView(page,'transport').click();
+ await page.locator('button[data-transit-day="4"]').click();
+ await expect(page.getByText('SHIBUYA109 → Hotel New Otani Tokyo Japanese Garden (OPTION A)',{exact:true})).toBeVisible();
  await page.locator('button[data-transit-day="6"]').click();
  await expect(page.getByText('Shinjuku Odakyu → Mukogaoka-Yuen',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-transit-day="7"]').click();
@@ -36,6 +45,7 @@ test('October 19 live Sheet is reflected across main views',async({page})=>{
  await topView(page,'reservations').click();
  await expect(page.getByRole('heading',{name:'Enoden Suica pay-as-you-go (4 rides; optional Noriorikun if not yet begun)'})).toBeVisible();
  await expect(page.getByRole('heading',{name:'MAPPA EXPO 15th Anniversary'})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'Edo-Tokyo Open Air Architectural Museum'})).toBeVisible();
  await topView(page,'budget').click();
  await expect(page.getByText('¥703,500  |  ≈ ₱281,400',{exact:true}).first()).toBeVisible();
  await expect(page.getByText('Day 8 itemized cost — already included in ¥40,000 cap',{exact:false})).toBeVisible();

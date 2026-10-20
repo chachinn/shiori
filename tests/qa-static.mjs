@@ -27,10 +27,10 @@ for(const ref of core){if(ref!=='./')assert(fs.existsSync(path.join(root,ref)),`
 // Keep static integrity checks limited to data-only layers. Browser-coupled sync/UI
 // layers are covered by Playwright below in the QA workflow.
 const context=vm.createContext({window:{},console});
-for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js','sheet-sync-v27.js','sheet-sync-v28.js','sheet-sync-v29.js','sheet-sync-v30.js','sheet-sync-v32.js','sheet-sync-v33.js','sheet-sync-v34.js','sheet-sync-v36.js'])vm.runInContext(read(file),context,{filename:file});
+for(const file of ['data.js','sheet-mirror.js','sheet-extra.js','summary-full.js','sheet-sync.js','sheet-sync-v12.js','sheet-sync-v24.js','sheet-sync-v25.js','sheet-sync-v26.js','sheet-sync-v27.js','sheet-sync-v28.js','sheet-sync-v29.js','sheet-sync-v30.js','sheet-sync-v32.js','sheet-sync-v33.js','sheet-sync-v34.js','sheet-sync-v36.js','sheet-sync-v37.js'])vm.runInContext(read(file),context,{filename:file});
 const D=context.window.SHioriData,M=context.window.SHioriSheetMirror,X=context.window.SHioriSheetExtra,S=context.window.SHioriFullSummary;
 assert(D&&M&&X&&S,'One or more runtime data mirrors failed to initialize');
-assert(context.window.SHioriSheetSyncVersion==='2026-10-19-v36','Latest Sheet sync patch did not execute');
+assert(context.window.SHioriSheetSyncVersion==='2026-10-21-v37','Latest Sheet sync patch did not execute');
 assert(Array.isArray(D.days)&&D.days.length===9,`Expected 9 itinerary days, got ${D.days?.length}`);
 assert(new Set(D.days.map(d=>d.day)).size===9,'Itinerary day numbers are duplicated');
 
@@ -108,6 +108,22 @@ assert(X.reservations.some(r=>String(r[0]).includes('Custom Cake')&&r[1].include
 assert(X.reservations.some(r=>r[0]==='Toyoko Inn Narita Airport Honkan'&&r[3].includes('BAG DROP CONFIRM')),'Toyoko bag drop unresolved');
 assert(context.window.SHioriIfTimeSourceV34?.reduce((n,g)=>n+g.rows.length,0)===65,'IfTime 65 options incomplete');
 assert(read('index.html').includes('ui-extras-v34.js'),'Readiness and detail UX layer not loaded');
+assert(D.days.find(d=>d.day===4).title.includes('Koganei Park'),'Day4 title must be Koganei, not Kokubunji');
+assert(!D.days.find(d=>d.day===4).timeline.some(r=>/Tonogayato|Otaka-no-Michi|Kokubunji/.test(String(r[2]))),'Removed Kokubunji stops still in Day4 timeline');
+assert(D.days.find(d=>d.day===4).timeline.some(r=>String(r[0]).includes('09:30–11:30')&&String(r[2]).includes('Edo-Tokyo')),'Two-hour 09:30 museum visit missing');
+assert(D.days.find(d=>d.day===4).timeline.some(r=>String(r[2]).includes('SHIBUYA109')),'109 goods pickup missing');
+assert(D.days.find(d=>d.day===4).timeline.some(r=>String(r[2]).includes('New Otani')),'Optional garden A missing');
+assert(D.days.find(d=>d.day===4).timeline.some(r=>String(r[2]).includes('Hibiya Park')),'Optional garden B missing');
+assert(D.days.find(d=>d.day===4).priorities.some(r=>r.includes('ONE')),'Garden exclusivity not clear');
+assert(M.transport[4].some(r=>String(r[2]).includes('Shibuya')),'Shibuya transit missing');
+assert(M.transport[4].some(r=>String(r[0])==='5A')&&M.transport[4].some(r=>String(r[0])==='5B'),'Both alternative branch routes missing');
+assert(M.schedule[4].some(r=>r[0]==='09:30'&&r[1].includes('TWO HOURS')),'Early museum 15-min schedule missing');
+assert(M.schedule[4].some(r=>r[0]==='12:45'&&r[1].includes('SHIBUYA109')),'109 schedule missing');
+assert(S.days[3][2].includes('SHIBUYA109'),'Summary Day4 was not refreshed');
+assert(X.budget.some(r=>r[0].startsWith('Day 4 – Koganei Park')&&r[1].includes('129,000')),'Day4 budget label or preserved cap stale');
+assert(X.reservations.some(r=>String(r[0]).startsWith('Edo-Tokyo Open Air')&&String(r[1]).includes('09:30–11:30')),'Museum reservation date still old');
+assert(context.window.SHioriIfTimeSourceV37?.some(g=>g.title.includes('KOGANEI PARK')),'Optional grouping did not sync');
+assert(read('lookbook-v30.js').includes('Koganei Park • museum full 09:30–11:30'),'Lookbook itinerary caption not updated');
 const latestData=JSON.stringify({days:D.days,transport:M.transport,schedule:M.schedule,planning:M.planning,reservations:X.reservations,budget:X.budget,summary:S});
 assert(!latestData.includes('Manmaru Honten'),'Superseded Manmaru data leaked through the final Sheet sync');
 assert(!latestData.includes('1781870115'),'Private Toyoko/Agoda booking ID leaked into public app data');
