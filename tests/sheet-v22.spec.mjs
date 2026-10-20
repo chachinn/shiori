@@ -45,7 +45,7 @@ test('October 19 live Sheet is reflected across main views',async({page})=>{
  await topView(page,'reservations').click();
  await expect(page.getByRole('heading',{name:'Enoden Suica pay-as-you-go (4 rides; optional Noriorikun if not yet begun)'})).toBeVisible();
  await expect(page.getByRole('heading',{name:'MAPPA EXPO 15th Anniversary'})).toBeVisible();
- await expect(page.getByRole('heading',{name:'Edo-Tokyo Open Air Architectural Museum'})).toBeVisible();
+ await expect(page.getByRole('heading',{name:'Edo-Tokyo Open Air Architectural Museum',exact:true})).toBeVisible();
  await topView(page,'budget').click();
  await expect(page.getByText('¥703,500  |  ≈ ₱281,400',{exact:true}).first()).toBeVisible();
  await expect(page.getByText('Day 8 itemized cost — already included in ¥40,000 cap',{exact:false})).toBeVisible();
