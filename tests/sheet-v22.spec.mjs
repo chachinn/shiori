@@ -20,8 +20,8 @@ test('October 22 live Sheet is reflected across main views',async({page})=>{
  await page.locator('button[data-day="6"]').click();
  await expect(page.getByText('Bar Lupin after SPY — MOVED from Wednesday, OPTIONAL',{exact:true})).toBeVisible();
  await expect(page.getByText('RELAX in Ikebukuro café / near PARCO',{exact:true})).toBeVisible();
- await expect(page.getByText('Masugata Tenjinsha Shrine (枡形天神社) — LOCAL HIDDEN GEM',{exact:false}).first()).toBeVisible();
- await expect(page.getByText('Nihon Minka-en — PROTECTED FULL 2 HOURS',{exact:false}).first()).toBeVisible();
+ await expect(page.getByText('Masugata Tenjinsha Shrine — optional if late/wet',{exact:false}).first()).toBeVisible();
+ await expect(page.getByText('Nihon Minka-en — PROTECTED FULL TWO HOURS',{exact:false}).first()).toBeVisible();
  await expect(page.locator('.t-row').filter({hasText:'Gotokuji Temple'})).toHaveCount(0);
  await page.locator('button[data-day="7"]').click();
  await expect(page.locator('.t-row').filter({hasText:'Mabashi Inari'}).first()).toBeVisible();

@@ -6,7 +6,7 @@ const d4=D.days.find(d=>d.day===4),d6=D.days.find(d=>d.day===6),d7=D.days.find(d
 if(!d4||!d6||!d7||!d8)throw Error('Missing day');
 const prev4=d4.timeline.slice(),prev6=d6.timeline.slice(),end=prev4.findIndex(r=>String(r[2]).includes('MAPPA EXPO 15th Anniversary'));if(end<0)throw Error('MAPPA timeline missing');
 d4.timeline=prev4.slice(0,end+1).concat([["~17:00–17:35","🚆","After MAPPA → JR Yurakucho → Okachimachi / Yusha Kobo","Yurakucho → Ueno","JR Yamanote toward Tokyo/Ueno→Okachimachi SOUTH EXIT, then walk ~8–10 min to Yusha Kobo at 3-6-10 Ueno."],["~17:35–18:00 ACTUAL","⌨️","Yusha Kobo — ONE keyboard PURCHASED ¥30,000","Ueno / Okachimachi","ACTUAL cost ¥30k on Wed Oct21 ONLY. Original ¥80k earmark: ¥30k purchased + ¥50k UNSPENT other-shopping reserve still in trip cap."],["~18:00–19:15","🍱","Ueno / Okachimachi dinner and rest","Ueno","Verify seafood/shrimp allergy-safety for dinner. CHA・GINZA and Kiya purchases not confirmed; do not mark spent."],["After dinner","🚆","Okachimachi → Takadanobaba → Hananosato","JR Yamanote","Flexible return; Bar Lupin not visited Wednesday, moved to Friday."]]);
-d4.title='Koganei + Shibuya109/Bic + MAPPA + Yusha Kobo/Ueno';d4.subtitle='Museum 09:30–11:30 • MAPPA 16:00 • ONE keyboard ¥30k ACTUAL at Yusha Kobo • Ueno dinner';
+d4.title='Koganei Park + Shibuya109/Bic + MAPPA + Yusha Kobo/Ueno';d4.subtitle='Museum 09:30–11:30 • MAPPA 16:00 • ONE keyboard ¥30k ACTUAL at Yusha Kobo • Ueno dinner';
 d4.end='After Ueno dinner, return flexible';d4.overview=v.summ4[8];
 d4.priorities=[
  'Koganei Park and museum 09:30–11:30 protected; no Kokubunji morning',
