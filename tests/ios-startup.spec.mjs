@@ -6,13 +6,15 @@ test('iPhone-style Safari opens, survives saved state and renders the current it
  await expect(page.locator('#app main')).toBeVisible();
  await expect(page.locator('.banner-day strong')).toBeVisible();
  await page.locator('.nav button[data-view="ifTime"]').click();
- await expect(page.locator('.iftime-row')).toHaveCount(68);
+ await expect(page.locator('.iftime-row')).toHaveCount(71);
  await page.locator('.nav button[data-view="days"]').click();
  await page.locator('button[data-day="2"]').click();
  await expect(page.getByText('Slam Dunk',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-day="4"]').click();
  await expect(page.getByText('SHIBUYA109 — missing-goods retrieval (SHORT)',{exact:true})).toBeVisible();
  await expect(page.getByText('Yusha Kobo — ONE keyboard PURCHASED ¥30,000',{exact:true})).toBeVisible();
+ await page.locator('button[data-day="5"]').click();
+ await expect(page.getByText('Tsubaki Sōzen (椿宗善 横浜元町店) — MAIN Japanese tea',{exact:true})).toBeVisible();
  await page.locator('button[data-day="6"]').click();
  await expect(page.getByText('Bar Lupin after SPY — MOVED from Wednesday, OPTIONAL',{exact:true})).toBeVisible();
  await expect(page.getByText('Masugata Tenjinsha',{exact:false}).first()).toBeVisible();

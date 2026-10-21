@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 
 const topView=(page,view)=>page.locator(`.nav button[data-view="${view}"]`);
 
-test('October 22 live Sheet is reflected across main views',async({page})=>{
+test('October 22 latest Yokohama tea update is reflected across views',async({page})=>{
  await page.goto('/');
  await topView(page,'days').click();
  await page.locator('button[data-day="1"]').click();
@@ -17,6 +17,10 @@ test('October 22 live Sheet is reflected across main views',async({page})=>{
  await expect(page.getByText('OPTION A ONLY • Hotel New Otani Japanese Garden — waterfall/koi/red bridge',{exact:true})).toBeVisible();
  await expect(page.getByText('OPTION B ONLY • Hibiya Park pond/tree stroll — FREE',{exact:true})).toBeVisible();
  await expect(page.getByText('Yusha Kobo — ONE keyboard PURCHASED ¥30,000',{exact:true})).toBeVisible();
+ await page.locator('button[data-day="5"]').click();
+ await expect(page.getByText('Tsubaki Sōzen (椿宗善 横浜元町店) — MAIN Japanese tea',{exact:true})).toBeVisible();
+ await expect(page.getByText('Chinatown tea — CHOOSE ONE Ten Ren’s Tea OR Goku No.1',{exact:true})).toBeVisible();
+ await expect(page.getByText('Osanbashi International Passenger Terminal ROOFTOP — PROTECTED',{exact:true})).toBeVisible();
  await page.locator('button[data-day="6"]').click();
  await expect(page.getByText('Bar Lupin after SPY — MOVED from Wednesday, OPTIONAL',{exact:true})).toBeVisible();
  await expect(page.getByText('RELAX in Ikebukuro café / near PARCO',{exact:true})).toBeVisible();
@@ -37,6 +41,8 @@ test('October 22 live Sheet is reflected across main views',async({page})=>{
  await topView(page,'schedule').click();
  await page.locator('button[data-schedule-day="4"]').click();
  await expect(page.getByText('Edo-Tokyo Museum PROTECTED FULL TWO HOURS',{exact:false}).first()).toBeVisible();
+ await page.locator('button[data-schedule-day="5"]').click();
+ await expect(page.getByText('Tsubaki Sōzen',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-schedule-day="6"]').click();
  await expect(page.getByText('09:30–11:30 Nihon Minka-en',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-schedule-day="7"]').click();
@@ -44,6 +50,8 @@ test('October 22 live Sheet is reflected across main views',async({page})=>{
  await topView(page,'transport').click();
  await page.locator('button[data-transit-day="4"]').click();
  await expect(page.getByText('SHIBUYA109 → Hotel New Otani Tokyo Japanese Garden (OPTION A)',{exact:true})).toBeVisible();
+ await page.locator('button[data-transit-day="5"]').click();
+ await expect(page.getByText('Motomachi Park → Itsukushima Shrine → Tsubaki Sōzen Japanese tea',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-transit-day="6"]').click();
  await expect(page.getByText('Shinjuku Odakyu → Mukogaoka-Yuen',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-transit-day="7"]').click();
@@ -59,15 +67,16 @@ test('October 22 live Sheet is reflected across main views',async({page})=>{
  await expect(page.getByText('PH eTravel — outbound + return',{exact:false}).first()).toBeVisible();
 });
 
-test('If We Have Time mirrors the 68 live optional destinations and saves check-offs',async({page})=>{
+test('If We Have Time mirrors the 71 live optional destinations and saves check-offs',async({page})=>{
  await page.goto('/');
  await topView(page,'ifTime').click();
  await expect(page.getByRole('heading',{name:'✨ IF WE HAVE TIME — OPTIONAL PLACES BY DAY'})).toBeVisible();
- await expect(page.locator('.iftime-row')).toHaveCount(68);
+ await expect(page.locator('.iftime-row')).toHaveCount(71);
  await expect(page.getByText('Gotokuji Temple (豪徳寺)',{exact:true})).toBeVisible();
  await expect(page.getByText('茶処つきじ / Chadokoro Tsukiji',{exact:true})).toBeVisible();
  await expect(page.getByText('つきまさ 下北沢店 / Tsukimasa',{exact:true})).toBeVisible();
  await expect(page.getByText('YAMANOAKARI / ヤマノアカリ',{exact:true})).toBeVisible();
+ await expect(page.getByText('椿宗善 横浜元町店 / Tsubaki Sōzen',{exact:true})).toBeVisible();
  await expect(page.getByText('⭐ SELECTED: OGIKUBO THREE GARDENS (大田黒 → 角川 → 荻外荘)',{exact:true})).toBeVisible();
  const row=page.locator('.iftime-row').filter({hasText:'Gotokuji Temple (豪徳寺)'});
  await row.locator('[data-iftime-v23-tick]').click();
