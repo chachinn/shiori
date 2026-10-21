@@ -137,8 +137,8 @@ assert(M.transport[7].some(r=>String(r[2]).includes('Tsukimasa')),'Tea shop tran
 assert(M.transport[8].some(r=>String(r[2]).includes('YAMANOAKARI')),'Narita tea transit missing');
 assert(M.schedule[4].some(r=>String(r[1]).includes('Yusha Kobo')),'Day4 actual purchase missing from schedule');
 assert(M.schedule[6].some(r=>String(r[1]).includes('Bar Lupin')),'Friday Bar Lupin missing schedule');
-assert(F.days[3][2].includes('Yusha Kobo'),'Day4 trip summary not updated');
-assert(F.days[5][2].includes('Bar Lupin'),'Day6 summary not updated');
+assert(S.days[3][2].includes('Yusha Kobo'),'Day4 trip summary not updated');
+assert(S.days[5][2].includes('Bar Lupin'),'Day6 summary not updated');
 assert(X.budget.some(r=>r[0].startsWith('Day 4 –')&&r[2].includes('¥30,000')),'Actual keyboard cost not in budget');
 assert(X.budget.some(r=>r[0].startsWith('Day 6 –')&&r[2].includes('¥50,000')),'50k flexible shopping reserve not preserved');
 assert(X.reservations.some(r=>r[0]==='Bar Lupin'&&r[1].includes('Oct 23')),'Bar Lupin booking day wrong');
