@@ -123,7 +123,7 @@ assert(S.days[3][2].includes('SHIBUYA109'),'Summary Day4 was not refreshed');
 assert(X.budget.some(r=>r[0].startsWith('Day 4 – Koganei')&&r[1].includes('129,000')),'Day4 budget label or preserved cap stale');
 assert(X.reservations.some(r=>String(r[0]).startsWith('Edo-Tokyo Open Air')&&String(r[1]).includes('09:30–11:30')),'Museum reservation date still old');
 assert(context.window.SHioriIfTimeSourceV37?.some(g=>g.title.includes('KOGANEI PARK')),'Optional grouping did not sync');
-assert(read('lookbook-v30.js').includes('Koganei Park • museum full 09:30–11:30'),'Lookbook itinerary caption not updated');
+assert(read('lookbook-v30.js').includes('Koganei Park • museum 09:30–11:30'),'Lookbook itinerary caption not updated');
 assert(D.days.find(d=>d.day===4).timeline.some(r=>String(r[2]).includes('Yusha Kobo')&&String(r[2]).includes('PURCHASED')),'Keyboard actual missing Oct21');
 assert(!D.days.find(d=>d.day===4).timeline.some(r=>String(r[2]).includes('Bar Lupin')),'Bar Lupin still scheduled Wednesday');
 assert(D.days.find(d=>d.day===6).timeline.some(r=>String(r[2]).includes('Bar Lupin')),'Bar Lupin Friday missing');
