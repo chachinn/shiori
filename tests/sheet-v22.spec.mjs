@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 
 const topView=(page,view)=>page.locator(`.nav button[data-view="${view}"]`);
 
-test('October 19 live Sheet is reflected across main views',async({page})=>{
+test('October 22 live Sheet is reflected across main views',async({page})=>{
  await page.goto('/');
  await topView(page,'days').click();
  await page.locator('button[data-day="1"]').click();
@@ -16,13 +16,19 @@ test('October 19 live Sheet is reflected across main views',async({page})=>{
  await expect(page.getByText('SHIBUYA109 — missing-goods retrieval (SHORT)',{exact:true})).toBeVisible();
  await expect(page.getByText('OPTION A ONLY • Hotel New Otani Japanese Garden — waterfall/koi/red bridge',{exact:true})).toBeVisible();
  await expect(page.getByText('OPTION B ONLY • Hibiya Park pond/tree stroll — FREE',{exact:true})).toBeVisible();
+ await expect(page.getByText('Yusha Kobo — ONE keyboard PURCHASED ¥30,000',{exact:true})).toBeVisible();
  await page.locator('button[data-day="6"]').click();
+ await expect(page.getByText('Bar Lupin after SPY — MOVED from Wednesday, OPTIONAL',{exact:true})).toBeVisible();
+ await expect(page.getByText('RELAX in Ikebukuro café / near PARCO',{exact:true})).toBeVisible();
  await expect(page.getByText('Masugata Tenjinsha Shrine (枡形天神社) — LOCAL HIDDEN GEM',{exact:false}).first()).toBeVisible();
  await expect(page.getByText('Nihon Minka-en — PROTECTED FULL 2 HOURS',{exact:false}).first()).toBeVisible();
  await expect(page.locator('.t-row').filter({hasText:'Gotokuji Temple'})).toHaveCount(0);
  await page.locator('button[data-day="7"]').click();
  await expect(page.locator('.t-row').filter({hasText:'Mabashi Inari'}).first()).toBeVisible();
+ await expect(page.getByText('Chadokoro Tsukiji (茶処つきじ) — Koenji local leaf tea merchant',{exact:true})).toBeVisible();
+ await expect(page.getByText('Tsukimasa (つきまさ) — Shimokitazawa traditional tea leaves',{exact:true})).toBeVisible();
  await page.locator('button[data-day="8"]').click();
+ await expect(page.getByText('YAMANOAKARI (ヤマノアカリ) — Narita tea leaves to take home',{exact:true})).toBeVisible();
  await expect(page.getByText('FUDŌ NO ŌIDO',{exact:false}).first()).toBeVisible();
  await expect(page.getByText('NARITASAN MUSEUM OF CALLIGRAPHY',{exact:false}).first()).toBeVisible();
  await topView(page,'summary').click();
@@ -53,12 +59,15 @@ test('October 19 live Sheet is reflected across main views',async({page})=>{
  await expect(page.getByText('PH eTravel — outbound + return',{exact:false}).first()).toBeVisible();
 });
 
-test('If We Have Time mirrors the 65 live optional destinations and saves check-offs',async({page})=>{
+test('If We Have Time mirrors the 68 live optional destinations and saves check-offs',async({page})=>{
  await page.goto('/');
  await topView(page,'ifTime').click();
  await expect(page.getByRole('heading',{name:'✨ IF WE HAVE TIME — OPTIONAL PLACES BY DAY'})).toBeVisible();
- await expect(page.locator('.iftime-row')).toHaveCount(65);
+ await expect(page.locator('.iftime-row')).toHaveCount(68);
  await expect(page.getByText('Gotokuji Temple (豪徳寺)',{exact:true})).toBeVisible();
+ await expect(page.getByText('茶処つきじ / Chadokoro Tsukiji',{exact:true})).toBeVisible();
+ await expect(page.getByText('つきまさ 下北沢店 / Tsukimasa',{exact:true})).toBeVisible();
+ await expect(page.getByText('YAMANOAKARI / ヤマノアカリ',{exact:true})).toBeVisible();
  await expect(page.getByText('⭐ SELECTED: OGIKUBO THREE GARDENS (大田黒 → 角川 → 荻外荘)',{exact:true})).toBeVisible();
  const row=page.locator('.iftime-row').filter({hasText:'Gotokuji Temple (豪徳寺)'});
  await row.locator('[data-iftime-v23-tick]').click();
