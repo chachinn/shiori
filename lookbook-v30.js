@@ -12,8 +12,8 @@
     {day:3,date:'Oct 20 · Tue',route:'Shinjuku • LUTIA • Omotesando • Dr.STONE • Shibuya shopping',cha:'Pink cardigan • pale pink skirt',martin:'Light-pink overshirt • cream top • off-white trousers'},
     {day:4,date:'Oct 21 · Wed',route:'Koganei Park • museum 09:30–11:30 • Shibuya109 • MAPPA • Yusha Kobo keyboard purchased • Ueno dinner',cha:'Textured green/brown jacket • black top • brown plaid skirt',martin:'Olive overshirt • tan T-shirt • white trousers'},
     {day:5,date:'Oct 22 · Thu',route:'Yokohama • Yamate • BSD museum • Motomachi tea • Chinatown • Osanbashi • sunset',cha:'Textured green/brown jacket • black top • light-blue jeans',martin:'Cream jacket • navy patterned shirt • blue jeans'},
-    {day:6,date:'Oct 23 · Fri',route:'Masugata • Minka-en full 2h • relaxed Ikebukuro • SPY musical • optional late Bar Lupin',cha:'Brown jacket • beige top • black corset belt • white skirt • brown boots',martin:'Cream polo/overshirt • dark trousers'},
-    {day:7,date:'Oct 24 · Sat',route:'Sayama tea picking • Koenji Yokai Parade • Shimokitazawa vintage/clothes shopping',cha:'Brown jacket • gray ruffled top • brown skirt • dark boots',martin:'Olive overshirt • black shirt • tan trousers'},
+    {day:6,date:'Oct 23 · Fri',route:'Masugata • Minka-en full 2h • 3COINS bag • SPY musical • optional late Bar Lupin',cha:'Brown jacket • beige top • black corset belt • white skirt • brown boots',martin:'Cream polo/overshirt • dark trousers'},
+    {day:7,date:'Oct 24 · Sat',route:'Sayama tea picking • Koenji Yokai Parade • Nakano Broadway anime/retro shopping',cha:'Brown jacket • gray ruffled top • brown skirt • dark boots',martin:'Olive overshirt • black shirt • tan trousers'},
     {day:8,date:'Oct 25 · Sun',route:'Narita old town • sacred well garden • chrysanthemums • waterfall / ponds • calligraphy museum',cha:'Textured green/brown jacket • olive/khaki midi dress',martin:'Khaki short-sleeve shirt • white trousers'},
     {day:9,date:'Oct 26 · Mon',route:'Narita → Cebu → Iloilo',cha:'Brown jacket • black graphic top • light-gray pants',martin:'Not added to the Sheet yet'}
   ];

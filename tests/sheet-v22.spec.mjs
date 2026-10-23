@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 
 const topView=(page,view)=>page.locator(`.nav button[data-view="${view}"]`);
 
-test('October 22 latest Yokohama tea update is reflected across views',async({page})=>{
+test('October 24 latest Japan Sheet route is reflected across views',async({page})=>{
  await page.goto('/');
  await topView(page,'days').click();
  await page.locator('button[data-day="1"]').click();
@@ -19,18 +19,18 @@ test('October 22 latest Yokohama tea update is reflected across views',async({pa
  await expect(page.getByText('Yusha Kobo — ONE keyboard PURCHASED ¥30,000',{exact:true})).toBeVisible();
  await page.locator('button[data-day="5"]').click();
  await expect(page.getByText('Tsubaki Sōzen (椿宗善 横浜元町店) — MAIN Japanese tea',{exact:true})).toBeVisible();
- await expect(page.getByText('Chinatown tea — CHOOSE ONE Ten Ren’s Tea OR Goku No.1',{exact:true})).toBeVisible();
+ await expect(page.getByText('Yamashita Park / Guardian of Water — revised arrival',{exact:true})).toBeVisible();
  await expect(page.getByText('Osanbashi International Passenger Terminal ROOFTOP — PROTECTED',{exact:true})).toBeVisible();
  await page.locator('button[data-day="6"]').click();
  await expect(page.getByText('Bar Lupin after SPY — MOVED from Wednesday, OPTIONAL',{exact:true})).toBeVisible();
- await expect(page.getByText('RELAX in Ikebukuro café / near PARCO',{exact:true})).toBeVisible();
+ await expect(page.getByText('3COINS+plus LUMINE Ikebukuro 5F — BAG SHOPPING PRIORITY',{exact:true})).toBeVisible();
  await expect(page.getByText('Masugata Tenjinsha Shrine — optional if late/wet',{exact:false}).first()).toBeVisible();
  await expect(page.getByText('Nihon Minka-en — PROTECTED FULL TWO HOURS',{exact:false}).first()).toBeVisible();
  await expect(page.locator('.t-row').filter({hasText:'Gotokuji Temple'})).toHaveCount(0);
  await page.locator('button[data-day="7"]').click();
- await expect(page.locator('.t-row').filter({hasText:'Mabashi Inari'}).first()).toBeVisible();
- await expect(page.getByText('Chadokoro Tsukiji (茶処つきじ) — Koenji local leaf tea merchant',{exact:true})).toBeVisible();
- await expect(page.getByText('Tsukimasa (つきまさ) — Shimokitazawa traditional tea leaves',{exact:true})).toBeVisible();
+ await expect(page.getByText('Nakano Broadway — anime / retro gaming priority shopping',{exact:true})).toBeVisible();
+ await expect(page.getByText('Koenji Hikawa Shrine / Weather Shrine — OPTIONAL',{exact:true})).toBeVisible();
+ await expect(page.getByText('Nakano NORTH EXIT → Sun Mall ON THE WAY',{exact:true})).toBeVisible();
  await page.locator('button[data-day="8"]').click();
  await expect(page.getByText('YAMANOAKARI (ヤマノアカリ) — Narita tea leaves to take home',{exact:true})).toBeVisible();
  await expect(page.getByText('FUDŌ NO ŌIDO',{exact:false}).first()).toBeVisible();
@@ -47,6 +47,7 @@ test('October 22 latest Yokohama tea update is reflected across views',async({pa
  await expect(page.getByText('09:30–11:30 Nihon Minka-en',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-schedule-day="7"]').click();
  await expect(page.getByText('08:49 SAT',{exact:false}).first()).toBeVisible();
+ await expect(page.getByText('Nakano Broadway',{exact:false}).first()).toBeVisible();
  await topView(page,'transport').click();
  await page.locator('button[data-transit-day="4"]').click();
  await expect(page.getByText('SHIBUYA109 → Hotel New Otani Tokyo Japanese Garden (OPTION A)',{exact:true})).toBeVisible();
@@ -56,11 +57,13 @@ test('October 22 latest Yokohama tea update is reflected across views',async({pa
  await expect(page.getByText('Shinjuku Odakyu → Mukogaoka-Yuen',{exact:false}).first()).toBeVisible();
  await page.locator('button[data-transit-day="7"]').click();
  await expect(page.getByText('Sayamashi EAST EXIT bus stop #2',{exact:false}).first()).toBeVisible();
+ await expect(page.getByText('Koenji JR → Nakano JR ONE stop EAST',{exact:false}).first()).toBeVisible();
  await topView(page,'reservations').click();
  await expect(page.getByRole('heading',{name:'Enoden Suica pay-as-you-go (4 rides; optional Noriorikun if not yet begun)'})).toBeVisible();
  await expect(page.getByRole('heading',{name:'MAPPA EXPO 15th Anniversary'})).toBeVisible();
  await expect(page.getByRole('heading',{name:'Edo-Tokyo Open Air Architectural Museum',exact:true})).toBeVisible();
  await topView(page,'budget').click();
+ await expect(page.getByText('¥135,000  |  ≈ ₱54,000',{exact:true})).toBeVisible();
  await expect(page.getByText('¥703,500  |  ≈ ₱281,400',{exact:true}).first()).toBeVisible();
  await expect(page.getByText('Day 8 itemized cost — already included in ¥40,000 cap',{exact:false})).toBeVisible();
  await topView(page,'docs').click();

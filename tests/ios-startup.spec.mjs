@@ -16,8 +16,11 @@ test('iPhone-style Safari opens, survives saved state and renders the current it
  await page.locator('button[data-day="5"]').click();
  await expect(page.getByText('Tsubaki Sōzen (椿宗善 横浜元町店) — MAIN Japanese tea',{exact:true})).toBeVisible();
  await page.locator('button[data-day="6"]').click();
+ await expect(page.getByText('3COINS+plus LUMINE Ikebukuro 5F — BAG SHOPPING PRIORITY',{exact:true})).toBeVisible();
  await expect(page.getByText('Bar Lupin after SPY — MOVED from Wednesday, OPTIONAL',{exact:true})).toBeVisible();
  await expect(page.getByText('Masugata Tenjinsha',{exact:false}).first()).toBeVisible();
+ await page.locator('button[data-day="7"]').click();
+ await expect(page.getByText('Nakano Broadway — anime / retro gaming priority shopping',{exact:true})).toBeVisible();
  await page.reload();
  await expect(page.locator('#app main')).toBeVisible();
  await expect(page.getByText('Masugata Tenjinsha',{exact:false}).first()).toBeVisible();
