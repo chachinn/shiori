@@ -31,6 +31,7 @@ d7.optional=['Koenji Temple if open','Yakushi Ai Road OR Uchikoshi Tenjin shrine
 migrate(7,old7,d7.timeline,[/Miyanoen/i,/Sayamashi/i,/Yokai Parade|Hyakki Yako/i,/Nakano Broadway/i]);
 for(const n of [5,6,7]){M.transport[n]=p.tran[n];M.schedule[n]=p.sch[n];S.days[n-1]=p.summ[n];const b=X.budget.find(r=>String(r[0]).startsWith('Day '+n+' –'));if(!b)throw Error('Budget row missing Day'+n);[b[0],b[1],b[2]]=p.bud[n];}
 S.days[5][8]=String(S.days[5][8]).replace(/Shimokitazawa/gi,'Nakano');
+if(!String(S.days[6][2]).includes('Nakano Broadway'))S.days[6][2]=String(S.days[6][2]).replace('Broadway','Nakano Broadway');
 const total=X.budget.find(r=>r[0]==='TOTAL TRIP BUDGET');if(!total||!String(total[1]).includes('703,500'))throw Error('Trip cap changed');
 total[2]='¥703,500 trip ceiling unchanged: nine day caps ¥696,000 + baggage ¥7,500. Day6 135k / Day7 40k reallocation net zero. One keyboard purchased Oct21 ACTUAL ¥30,000; ¥50,000 flexible shopping balance remains, ¥15,000 included in Nakano Day7 plan and ¥35,000 unassigned. Unreported tea, shoes, bag are not marked purchased.';
 const prior=window.SHioriIfTimeSourceV39;if(!Array.isArray(prior)||prior.reduce((n,g)=>n+g.rows.length,0)!==71)throw Error('Optional source mismatch');
