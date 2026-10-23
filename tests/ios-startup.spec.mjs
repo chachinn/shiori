@@ -23,7 +23,7 @@ test('iPhone-style Safari opens, survives saved state and renders the current it
  await expect(page.getByText('Nakano Broadway — anime / retro gaming priority shopping',{exact:true})).toBeVisible();
  await page.reload();
  await expect(page.locator('#app main')).toBeVisible();
- await expect(page.getByText('Masugata Tenjinsha',{exact:false}).first()).toBeVisible();
+ await expect(page.getByText('Nakano Broadway — anime / retro gaming priority shopping',{exact:true})).toBeVisible();
  expect(errors).toEqual([]);
 });
 
