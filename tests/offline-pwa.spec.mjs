@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('Shiori reloads from the service worker while offline', async ({page,context})=>{
-  await page.goto('/');
+  await page.goto('/?trip=2026');
   await page.evaluate(()=>localStorage.clear());
   await page.reload();
   await page.waitForFunction(()=>navigator.serviceWorker&&navigator.serviceWorker.ready);

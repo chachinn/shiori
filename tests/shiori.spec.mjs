@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 async function openClean(page){
-  await page.goto('/');
+  await page.goto('/?trip=2026');
   await page.evaluate(()=>localStorage.clear());
   await page.reload();
 }
@@ -38,7 +38,7 @@ test('Packing group switching remains functional', async ({page})=>{
 });
 
 test('legacy itinerary and packing checks migrate to stable semantic keys', async ({page})=>{
-  await page.goto('/');
+  await page.goto('/?trip=2026');
   await page.evaluate(()=>localStorage.setItem('shioriState',JSON.stringify({done:{'d2-0':true},packDone:{'Cha-0':true},notes:{}})));
   await page.reload();
   const firstItinerary=page.locator('button[data-tick]').first();

@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('itinerary checkbox accepts taps outside the visible 24px square', async ({page})=>{
-  await page.goto('/');
+  await page.goto('/?trip=2026');
   await page.evaluate(()=>localStorage.clear());
   await page.reload();
   const button=page.locator('button[data-tick]').first();
@@ -13,7 +13,7 @@ test('itinerary checkbox accepts taps outside the visible 24px square', async ({
 });
 
 test('packing checkbox keeps a comfortable mobile row target', async ({page})=>{
-  await page.goto('/');
+  await page.goto('/?trip=2026');
   await page.evaluate(()=>localStorage.clear());
   await page.reload();
   await page.locator('.nav button[data-view="packing"]').click();

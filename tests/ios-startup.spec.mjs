@@ -2,7 +2,7 @@ import {test,expect} from '@playwright/test';
 
 test('iPhone-style Safari opens, survives saved state and renders the current itinerary',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
- await page.goto('/');
+ await page.goto('/?trip=2026');
  await expect(page.locator('#app main')).toBeVisible();
  await expect(page.locator('.banner-day strong')).toBeVisible();
  await page.locator('.nav button[data-view="ifTime"]').click();
@@ -28,7 +28,7 @@ test('iPhone-style Safari opens, survives saved state and renders the current it
 });
 
 test('repair page deletes only app file caches, retaining saved progress and notes',async({page})=>{
- await page.goto('/');
+ await page.goto('/?trip=2026');
  await page.evaluate(()=>localStorage.setItem('shioriState',JSON.stringify({done:{'preserve-me':true},notes:{sample:'Keep this note'}})));
  await page.goto('/repair.html');
  await expect(page.getByRole('heading',{name:'🌸 Shiori recovery'})).toBeVisible();
