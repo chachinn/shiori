@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-async function clean(page){await page.goto('/');await page.evaluate(()=>localStorage.clear());await page.reload()}
+async function clean(page){await page.goto('/?trip=2026');await page.evaluate(()=>localStorage.clear());await page.reload()}
 
 test('15-Min Now/Next controls render and jump within the full schedule', async ({page})=>{
   await clean(page);
