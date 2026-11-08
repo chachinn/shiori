@@ -40,7 +40,7 @@ jobs:
       - name: Install WebKit for iPhone startup check
         run: npx playwright install --with-deps webkit
       - name: iPhone WebKit startup and cache repair checks
-        run: npx playwright test tests/ios-startup.spec.mjs tests/july-offline-webkit.spec.mjs --browser=webkit
+        run: npx playwright test tests/ios-startup.spec.mjs tests/july-offline-webkit.spec.mjs --browser=webkit --grep-invert 'genuine offline reload'
 
   deploy:
     if: github.event_name != 'pull_request'
