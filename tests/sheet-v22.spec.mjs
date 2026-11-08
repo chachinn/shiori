@@ -3,7 +3,7 @@ import {test,expect} from '@playwright/test';
 const topView=(page,view)=>page.locator(`.nav button[data-view="${view}"]`);
 
 test('October 24 latest Japan Sheet route is reflected across views',async({page})=>{
- await page.goto('/');
+ await page.goto('/?trip=2026');
  await topView(page,'days').click();
  await page.locator('button[data-day="1"]').click();
  await expect(page.getByText('✅ MAPPA physical tickets collected Oct 18',{exact:true})).toBeVisible();
@@ -71,7 +71,7 @@ test('October 24 latest Japan Sheet route is reflected across views',async({page
 });
 
 test('If We Have Time mirrors the 71 live optional destinations and saves check-offs',async({page})=>{
- await page.goto('/');
+ await page.goto('/?trip=2026');
  await topView(page,'ifTime').click();
  await expect(page.getByRole('heading',{name:'✨ IF WE HAVE TIME — OPTIONAL PLACES BY DAY'})).toBeVisible();
  await expect(page.locator('.iftime-row')).toHaveCount(71);
@@ -89,7 +89,7 @@ test('If We Have Time mirrors the 71 live optional destinations and saves check-
 });
 
 test('Outfit Lookbook shows the actual Sheet photos',async({page})=>{
-  await page.goto('/');
+  await page.goto('/?trip=2026');
   await topView(page,'lookbook').click();
   await expect(page.getByRole('heading',{name:'Outfit Lookbook'})).toBeVisible();
   await expect(page.locator('.lookbook-card')).toHaveCount(9);
