@@ -37,7 +37,7 @@ test('July saves independent notes and check-offs; October archive remains acces
  await page.locator('[data-shiori-trip="2026"]').click();
  await expect(page.getByText('October 2026 archive')).toBeVisible();
  await expect(page.getByText('Oct 18–26, 2026',{exact:false}).first()).toBeVisible();
- await expect(page.evaluate(()=>JSON.parse(localStorage.getItem('shioriState2027')).notes[0])).resolves.toBe('July trip note');
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('shioriState2027')).notes[0])).toBe('July trip note');
  await page.locator('[data-shiori-trip="2027"]').click();
  await expect(page.locator('[data-jnote="0"]')).toHaveValue('July trip note');
 });
