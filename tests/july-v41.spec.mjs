@@ -44,6 +44,7 @@ test('July saves independent notes and check-offs; October archive remains acces
 test('July extras, packing and outfit views do not reuse October photos',async({page})=>{
  await page.goto('/?trip=2027');
  await page.locator('[data-jview="packing"]').first().click();
+ await page.locator('[data-jpack="Medicine / safety"]').click();
  await expect(page.getByText('Severe seafood allergy emergency kit')).toBeVisible();
  await page.locator('[data-jview="lookbook"]').first().click();
  await expect(page.getByText('No new outfit photos assigned',{exact:false})).toBeVisible();
