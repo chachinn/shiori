@@ -23,6 +23,8 @@ assert.ok(s.days[9].items.some(r=>r[0].includes('08:55')),'Return flight missing
 assert.ok(s.reservations.some(r=>String(r[0]).startsWith('International flight:')&&String(r[3]).includes('BOOKED')),'Booked flight status not preserved');
 assert.ok(s.reservations.some(r=>String(r[0]).includes('Lutia')&&String(r[3]).includes('NOT BOOKED')),'Tentative salon status incorrect');
 assert.ok(s.reservations.some(r=>String(r[0]).includes('Minakami Sansou')&&String(r[3]).includes('NOT BOOKED')),'Minakami status incorrect');
+assert.ok(s.packing[2][9]?.includes('Severe seafood allergy emergency kit'),'Packing Medicine/safety column J not loaded');
+assert.equal(s.packing[0][6],'Both','Packing Both column G not loaded');
 assert.equal(s.schedule.length,97,'15-minute source should contain header + 96 time rows');
 for(const p of ['july-v41-days-a.js','july-v41-days-b.js','july-v41-sheet.js','july-v41-extras.js','july-v41-app.js','july-v41.css']) {
  assert.ok(index.includes(p),'Missing v41 asset reference: '+p);
