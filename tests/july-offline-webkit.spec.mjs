@@ -7,11 +7,11 @@ test('July 2027 stays usable after a genuine offline reload',async({page,context
  await page.evaluate(()=>navigator.serviceWorker.ready);
  await page.reload();
  await page.locator('[data-jday="day:4"]').click();
- await expect(page.getByText('SAKURA SAMURAI',{exact:false}).first()).toBeVisible();
+ await expect(page.getByText(/Sakura Samurai/i).first()).toBeVisible();
  await context.setOffline(true);
  await page.reload({waitUntil:'domcontentloaded'});
  await expect(page.locator('[data-jday="day:4"]')).toBeVisible();
- await expect(page.getByText('SAKURA SAMURAI',{exact:false}).first()).toBeVisible();
+ await expect(page.getByText(/Sakura Samurai/i).first()).toBeVisible();
  await page.locator('[data-jday="day:9"]').click();
  await expect(page.getByText('08:55',{exact:false}).first()).toBeVisible();
  await context.setOffline(false);
