@@ -1,0 +1,55 @@
+/* Shiori v41 July 2027 companion. Archived October stylesheet remains unchanged. */
+.july-trip-switch{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap;padding:10px 14px;background:#fff9fc;border-bottom:1px solid #ead3de;color:#74485c;font-size:13px}
+.july-trip-switch button{padding:9px 12px;border-radius:12px;border:1px solid #d7b9c9;background:#fff;color:#94546f;font-weight:700;cursor:pointer}
+.july-trip-switch.archive{max-width:1300px;margin:auto;border-radius:12px}
+.july-day-switch{overflow-x:auto;scrollbar-width:thin}
+.july-soft-warning{background:#fff9ef;padding:14px 16px;border:1px solid #f0d6a8;border-radius:12px;line-height:1.6;margin:14px 0;color:#6b5138}
+.july-main-grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(260px,.8fr);align-items:start;gap:16px}
+.july-main-grid .paper-card,.july-tips,.july-summary-cards .paper-card{padding:18px}
+.july-timeline h2,.july-tips h2{margin-top:0}
+.july-stop{display:flex;align-items:flex-start;gap:12px;padding:13px 0;border-bottom:1px solid #ecdfe6;line-height:1.5}
+.july-stop:last-child{border-bottom:0}
+.july-stop .check-btn,.july-check-row .check-btn,.july-optional-head .check-btn{flex:none;min-width:28px;min-height:28px;margin-top:1px}
+.july-stop small{display:block;font-weight:700;color:#a26d88;margin-bottom:3px}
+.july-stop strong,.july-doc strong{display:block;font-size:15px;color:#513b49}
+.july-stop p{margin:5px 0;color:#5c5260;font-size:13px;line-height:1.65}
+.july-stop.done strong{opacity:.65;text-decoration:line-through}
+.july-side{display:grid;gap:15px}
+.july-side p{line-height:1.6}
+.july-side textarea{width:100%;max-width:100%;min-height:100px;border:1px solid #e7cddd;border-radius:12px;padding:10px;background:#fff}
+.july-big-number{font-size:28px;font-weight:800;color:#b05b84;margin:8px 0}
+.july-tips{margin-top:16px}
+.july-tips details{padding:10px 0;border-bottom:1px solid #f0e2e8}
+.july-tips details summary{font-weight:650;cursor:pointer}
+.july-tips details p{font-size:13px;line-height:1.6;margin-bottom:4px}
+.july-summary-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:16px 0}
+.july-summary-cards h2{font-size:18px;margin:6px 0 12px;line-height:1.35}
+.july-summary-cards p{line-height:1.55;font-size:13px}
+.july-summary-cards small{color:#9d6680}
+.july-sched>div,.july-check-row{display:flex;align-items:flex-start;gap:16px;border-bottom:1px solid #eee0e7;padding:12px 4px}
+.july-sched time{font-variant-numeric:tabular-nums;flex:0 0 60px;font-weight:700;color:#9d6381}
+.july-sched span{line-height:1.55}
+.july-transport article{padding:14px 0;border-bottom:1px solid #eedce6}
+.july-transport article h2{font-size:16px;margin:4px 0}
+.july-transport article p{margin:6px 0;line-height:1.55}
+.july-transport article small{color:#a57188}
+.july-money-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.july-money-stats section{padding:16px;display:flex;flex-direction:column;gap:5px}
+.july-money-stats small{color:#866477}
+.july-money-stats strong{font-size:23px;color:#b06384}
+.july-budget-table{overflow-x:auto;max-width:100%}
+.july-budget-table table{border-collapse:collapse;min-width:980px;width:100%;font-size:12px}
+.july-budget-table th,.july-budget-table td{padding:10px 8px;border-bottom:1px solid #e8d6df;white-space:nowrap;text-align:left}
+.july-budget-table th{background:#f9ecf2;position:sticky;top:0}
+.july-budget-table th:nth-child(2),.july-budget-table td:nth-child(2){min-width:190px;white-space:normal}
+.july-budget-table td:last-child{font-weight:750;color:#a2587b}
+.july-funding{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.july-funding>div{display:flex;flex-direction:column;gap:5px;background:#fcf7fa;border:1px solid #f1e0e8;padding:12px;border-radius:11px}
+.july-funding small{line-height:1.5}
+.july-check-row.done span{opacity:.6;text-decoration:line-through}
+.july-doc{border-bottom:1px solid #e9dbe3;padding:12px 0}
+.july-doc small{display:block;color:#976b81}
+.july-doc p{font-size:13px;line-height:1.55}
+.july-doc a,.july-summary-cards a{color:#9b4771}
+.july-optional-head{display:flex;align-items:flex-start;gap:10px}
+@media(max-width:800px){.july-main-grid,.july-summary-cards{grid-template-columns:1fr}.july-money-stats{grid-template-columns:1fr}.july-funding{grid-template-columns:1fr}.july-trip-switch{font-size:12px}.july-day-switch{gap:7px}.july-main-grid .paper-card,.july-tips,.july-summary-cards .paper-card{padding:14px}.july-stop{gap:10px}}
