@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('Transport cards expose Maps and Copy actions on mobile', async ({page})=>{
-  await page.goto('/');
+  await page.goto('/?trip=2026');
   await page.evaluate(()=>localStorage.clear());
   await page.reload();
   await page.locator('.nav button[data-view="transport"]').click();
