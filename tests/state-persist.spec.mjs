@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-async function clean(page){await page.goto('/');await page.evaluate(()=>localStorage.clear());await page.reload()}
+async function clean(page){await page.goto('/?trip=2026');await page.evaluate(()=>localStorage.clear());await page.reload()}
 
 test('current screen and day selections survive reloads', async ({page})=>{
   await clean(page);
